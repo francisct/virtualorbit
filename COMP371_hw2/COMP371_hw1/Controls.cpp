@@ -1,23 +1,9 @@
-#include <cmath>
+#include "Controls.h"
+#include "Player.h"
 
-#include "..\glew\glew.h"		// include GL Extension Wrangler
 
-#include "..\glfw\glfw3.h"  
 extern GLFWwindow* window;
 extern int glRenderingType;
-
-
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
-#include "gtc/constants.hpp"
-using namespace glm;
-
-#include "Controls.hpp"
-#include <vector>
-using namespace std;
-
-#include "Cube.cpp"
 
 mat4 ViewMatrix;
 mat4 ProjectionMatrix;
@@ -37,8 +23,8 @@ vec3 position = vec3(0, 0, 15);
 extern int windowWidth;
 extern int windowHeight;
 
-extern Cube world;
-extern Cube player;
+extern World world;
+
 
 vec3 upDirection = vec3{ 0.0f, 2.0f, 0.0f };
 vec3 rightDirection = vec3{ 2.0f, 0.0f, 0.0f };
@@ -65,7 +51,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 }
 
 void keypress_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-	if (action == GLFW_PRESS) {
 		switch (key) {
 
 		case GLFW_KEY_ENTER:
@@ -98,28 +83,26 @@ void keypress_callback(GLFWwindow *window, int key, int scancode, int action, in
 			position += zoomDirection;
 			break;
 		case GLFW_KEY_Z:
-			world.rotateLeft();
-			player.rotateLeft();
+			world.rotateWorld(ROTATE_LEFT);
 			break;
 		case GLFW_KEY_X:
-			world.rotateRight();
-			player.rotateRight();
+			world.rotateWorld(ROTATE_RIGHT);
 			break;
 		case GLFW_KEY_W:
-			player.goUp();
+			world.player.translate(TRANSLATE_UP);
 			break;
 		case GLFW_KEY_S:
-			player.goDown();
+			world.player.translate(TRANSLATE_DOWN);
 			break;
 		case GLFW_KEY_A:
-			player.goLeft();
+			world.player.translate(TRANSLATE_LEFT);
 			break;
 		case GLFW_KEY_D:
-			player.goRight();
+			world.player.translate(TRANSLATE_RIGHT);
 			break;
 		}
 
-	}
+	
 }
 
 void computeMatricesFromInputs() {

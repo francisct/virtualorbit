@@ -12,10 +12,7 @@
 #include "gtc/type_ptr.hpp"
 #include "gtc/constants.hpp"
 
-#include "Controls.hpp"
-
-#include "CImg.h"
-using namespace cimg_library;
+#include "Controls.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,8 +24,11 @@ using namespace cimg_library;
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
-#include "Cube.cpp"
+#include "World.h"
+#include "Cube.h"
+#include "Timer.h"
+#include "Texture.h"
+#include "Cam.h"
 
 #define M_PI        3.14159265358979323846264338327950288   /* pi */
 #define DEG_TO_RAD	M_PI/180.0f
@@ -36,17 +36,18 @@ using namespace std;
 GLFWwindow* window = 0x00;
 int glRenderingType = GL_TRIANGLES;
 
-Cube world;
-Cube player;
+Timer timer;
+World world;
 
 GLuint shader_program = 0;
+GLuint Texture;
+GLuint TextureID;
 
 GLuint view_matrix_id = 0;
 GLuint model_matrix_id = 0;
 GLuint proj_matrix_id = 0;
 
-///Transformations
-glm::mat4 proj_matrix; 
+glm::mat4 proj_matrix;
 glm::mat4 view_matrix;
 
 ///Change the size of the rendered points
@@ -102,7 +103,8 @@ bool initialize() {
 
 bool cleanUp() {
 	//Release memory e.g. vao, vbo, etc
-
+	world.destroy();
+	glDeleteTextures(1, &TextureID);
 	// Close GL context and any other GLFW resources
 	glfwTerminate();
 
@@ -211,6 +213,7 @@ GLuint loadShaders(std::string vertex_shader_path, std::string fragment_shader_p
 	model_matrix_id = glGetUniformLocation(ProgramID, "model_matrix");
 	proj_matrix_id = glGetUniformLocation(ProgramID, "proj_matrix");
 	
+
 	return ProgramID;
 }
 
@@ -224,6 +227,20 @@ void setCallbacks() {
 	//glfwSetScrollCallback(window, scroll_callback);
 }
 
+void loadTexture() {
+	// Load the texture
+    Texture = loadDDS("uvmap.DDS");
+	// Get a handle for our "myTextureSampler" uniform
+	TextureID = glGetUniformLocation(shader_program, "myTextureSampler");
+}
+
+void bindTexture() {
+	// Bind our texture in Texture Unit 0
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, Texture);
+	// Set our "myTextureSampler" sampler to user Texture Unit 0
+	glUniform1i(TextureID, 0);
+}
 
 int main() {
 	///Make sure the size of vec3 is the same as 3 floats
@@ -233,16 +250,26 @@ int main() {
 	initialize();
 
 	setCallbacks();
+	
+	//shader_program = loadShaders("COMP371_hw1.vs", "COMP371_hw1.fs");
+    shader_program = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
 
-	shader_program = loadShaders("COMP371_hw1.vs", "COMP371_hw1.fs");
+	timer= Timer();
+	world = World();
+	//add main platform
+	world.addPlayer();
+	world.addShape( 10, 0.3, 1, -1);
+	world.addShape(3, 0.3, 3, 4);
+	vector<GLuint> vaos;
+	world.registerVAOS(&vaos);
 
-	world = Cube(3.0f);
-	player = Cube(1.0f);
-
-	glGenVertexArrays(1, &world.vao);
-
+	loadTexture();
+	glUseProgram(shader_program);
+	GLuint LightPosID = glGetUniformLocation(shader_program, "LightPosition_worldspace");
+	GLuint LightDirID = glGetUniformLocation(shader_program, "LightDirection_cameraspace");
 	while (!glfwWindowShouldClose(window)) {
 		
+		timer.getElapsedTime();
 
 		// wipe the drawing surface clear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -250,13 +277,21 @@ int main() {
 		
 		glUseProgram(shader_program);
 
+		//setting and registering light position
+		glm::vec3 lightPos = glm::vec3(0, 4, 2);
+		glm::vec3 lightDir = glm::vec3(0,-1, 0);
+		//glUniform3f(LightPosID, lightPos.x, lightPos.y, lightPos.z);
+		glUniform3f(LightPosID, world.player.flashlightPos.x, world.player.flashlightPos.y, world.player.flashlightPos.z);
+		glUniform3f(LightDirID, lightDir.x, lightDir.y, lightDir.z);
+		//bindTexture();
 		world.draw();
-		player.draw();
 		
 		// update other events like input handling 
 		glfwPollEvents();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers(window);
+
+		timer.updateLastTime();
 	}
 
 	cleanUp();

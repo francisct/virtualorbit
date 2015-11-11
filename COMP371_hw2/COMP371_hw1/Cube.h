@@ -1,17 +1,12 @@
-#ifndef CUBE_H
-#define CUBE_H
+#pragma once
+
 #include "Shape.h"
-#include "glm.hpp"
-using namespace glm;
-#include <vector>
-using namespace std;
 
 class Cube : public Shape {
 
 public:
 
-	Cube::Cube(float size) {
-	}
+	Cube();
+	Cube(float size, float width, float height, glm::vec3 position);
 
 };
-#endif
