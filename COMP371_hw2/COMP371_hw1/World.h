@@ -23,7 +23,7 @@ public:
 	World();
 	void registerVAOS(vector<GLuint>* vaos);
 	void addPlayer();
-	void addShape(float widthRatio, float heightRatio, float xTranslation, float yTranslation);
+	void addShape(float widthRatio, float heightRatio, float depthRatio, float xTranslation, float yTranslation, float zTranslation);
 	void draw();
 	void rotateWorld(float speed);
 	void translate(glm::vec3 translateBy);

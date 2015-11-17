@@ -2,7 +2,7 @@
 //OBJECT COMPOSITE CLASS
 
 #include "World.h"
-#include "objloader.h"
+#include "ObjLdr.h"
 
 
 World::World() {
@@ -23,12 +23,13 @@ void World::addPlayer() {
 	player = Player(0, 0, templateVertices, templateUvs, templateNormals);
 }
 
-void World::addShape(float widthRatio, float heightRatio, float xTranslation, float yTranslation) {
+void World::addShape(float widthRatio, float heightRatio, float depthRatio, float xTranslation, float yTranslation, float zTranslation) {
 
 	vector<glm::vec3> vertices = templateVertices;
 	for (int i = 0; i < vertices.size(); i++) {
 		vertices[i].x = vertices[i].x * widthRatio + xTranslation;
 		vertices[i].y = vertices[i].y * heightRatio + yTranslation;
+		vertices[i].z = vertices[i].z * depthRatio + zTranslation;
 	}
 
 	objects.push_back(Shape(0, 0, vertices, templateUvs, templateNormals));

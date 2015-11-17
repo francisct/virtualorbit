@@ -1,7 +1,7 @@
 #include "Shape.h"
 
 #include "Controls.h"
-#include "objloader.h"
+#include "ObjLdr.h"
 #include "GLOBALS.h"
 
 extern GLuint view_matrix_id;
