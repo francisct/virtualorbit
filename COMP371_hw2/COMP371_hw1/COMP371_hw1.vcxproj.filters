@@ -121,5 +121,23 @@
     <None Include="lightingAndTexture.vs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="DepthRTT.fragmentshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DepthRTT.vertexshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Passthrough.vertexshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ShadowMapping.fragmentshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ShadowMapping.vertexshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="SimpleTexture.fragmentshader">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

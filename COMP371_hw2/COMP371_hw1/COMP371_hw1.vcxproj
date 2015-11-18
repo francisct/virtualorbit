@@ -192,8 +192,14 @@
   <ItemGroup>
     <None Include="COMP371_hw1.fs" />
     <None Include="COMP371_hw1.vs" />
+    <None Include="DepthRTT.fragmentshader" />
+    <None Include="DepthRTT.vertexshader" />
     <None Include="lightingAndTexture.fs" />
     <None Include="lightingAndTexture.vs" />
+    <None Include="Passthrough.vertexshader" />
+    <None Include="ShadowMapping.fragmentshader" />
+    <None Include="ShadowMapping.vertexshader" />
+    <None Include="SimpleTexture.fragmentshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
