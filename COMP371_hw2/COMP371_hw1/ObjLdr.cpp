@@ -7,6 +7,7 @@
 
 #include "ObjLdr.h"
 
+
 // Very, VERY simple OBJ loader.
 // Here is a short list of features a real function would provide : 
 // - Binary files. Reading a model should be just a few memcpy's away, not parsing a file at runtime. In short : OBJ is not very great.
@@ -17,14 +18,9 @@
 // - More secure. Change another line and you can inject code.
 // - Loading from memory, stream, etc
 
-bool loadOBJ(
-	const char * path, 
-	std::vector<glm::vec3> & out_vertices, 
-	std::vector<glm::vec2> & out_uvs,
-	std::vector<glm::vec3> & out_normals
-){
+Shape loadOBJ(const char * path){
 	printf("Loading OBJ file %s...\n", path);
-
+	Shape shape = Shape();
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
 	std::vector<glm::vec3> temp_vertices; 
 	std::vector<glm::vec2> temp_uvs;
@@ -35,7 +31,7 @@ bool loadOBJ(
 	if( file == NULL ){
 		printf("Impossible to open the file ! Are you in the right path ? See Tutorial 1 for details\n");
 		getchar();
-		return false;
+		return shape;
 	}
 
 	while( 1 ){
@@ -67,7 +63,7 @@ bool loadOBJ(
 			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2] );
 			if (matches != 9){
 				printf("File can't be read by our simple parser :-( Try exporting with other options\n");
-				return false;
+				return shape;
 			}
 			vertexIndices.push_back(vertexIndex[0]);
 			vertexIndices.push_back(vertexIndex[1]);
@@ -99,14 +95,15 @@ bool loadOBJ(
 		glm::vec2 uv = temp_uvs[ uvIndex-1 ];
 		glm::vec3 normal = temp_normals[ normalIndex-1 ];
 		
+		
 		// Put the attributes in buffers
-		out_vertices.push_back(vertex);
-		out_uvs     .push_back(uv);
-		out_normals .push_back(normal);
+		shape.vertices.push_back(vertex);
+		shape.uvs.push_back(uv);
+		shape.normals.push_back(normal);
 	
 	}
 
-	return true;
+	return shape;
 }
 
 

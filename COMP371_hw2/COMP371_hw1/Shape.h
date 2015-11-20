@@ -28,14 +28,14 @@ public:
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 
-	float incrementalRotation;
-	float toRotate;
-	float roationTimeLimit;
-	bool rotationPending;
-	bool translationPending;
+	float incrementalRotation = 0.0f;
+	float toRotate = 0.0f;
+	float roationTimeLimit = 10.0f;
+	bool rotationPending = false;
+	bool translationPending = false;
 
 	Shape();
-	Shape(float xTranslation, float zRotation, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
+	Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
 	void generateMVP();
 	void passMVPtoShader();
 	void initObj();

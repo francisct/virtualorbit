@@ -23,7 +23,6 @@
 #include <algorithm>
 using namespace std;
 #include "World.h"
-#include "Cube.h"
 #include "Timer.h"
 #include "TextureLdr.h"
 #include "ShaderLdr.h"
@@ -114,11 +113,10 @@ bool cleanUp() {
 }
 
 void setCallbacks() {
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetKeyCallback(window, keypress_callback);
-	//glfwSetScrollCallback(window, scroll_callback);
+	glfwSetScrollCallback(window, mouseScrollCallback);
 	glfwSetCursorPosCallback(window, watchCursorCallback);
-	glfwSetMouseButtonCallback(window, world.generateCubeOnClickCallback);
+	//glfwSetMouseButtonCallback(window, mouseButtonCallback);
 }
 
 void loadTexture() {
@@ -156,19 +154,21 @@ int main() {
     shader_program = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
 
 	setMVPids(shader_program);
-	timer= Timer();
+	
 	world = World();
 	//add main platform
 	world.addPlayer();
-	world.addShape( 10, 0.3, 1, 1, -1, 0);
-	world.addShape(3, 0.3, 1, 3, 4, 0);
-	vector<GLuint> vaos;
-	world.registerVAOS(&vaos);
+	world.addShape( 10, 0.3, 1,glm::vec3( 1, -1, 0));
+	//world.addShape(3, 0.3, 1, 3, 4, 0);
+	//vector<GLuint> vaos;
+	//world.registerVAOS(&vaos);
 
 	loadTexture();
 	glUseProgram(shader_program);
 	GLuint LightPosID = glGetUniformLocation(shader_program, "LightPosition_worldspace");
 	GLuint LightDirID = glGetUniformLocation(shader_program, "LightDirection_cameraspace");
+
+	timer = Timer();
 	while (!glfwWindowShouldClose(window)) {
 		
 		timer.getElapsedTime();
@@ -179,21 +179,15 @@ int main() {
 		
 		glUseProgram(shader_program);
 
-		//setting and registering light position
-		glm::vec3 lightPos = glm::vec3(0, 4, 2);
-		glm::vec3 lightDir = glm::vec3(0,-1, 0);
-		//glUniform3f(LightPosID, lightPos.x, lightPos.y, lightPos.z);
-		glUniform3f(LightPosID, world.player.flashlightPos.x, world.player.flashlightPos.y, world.player.flashlightPos.z);
-		glUniform3f(LightDirID, lightDir.x, lightDir.y, lightDir.z);
+		glUniform3f(LightPosID, world.light.pos.x, world.light.pos.y, world.light.pos.z);
+		glUniform3f(LightDirID, world.light.dir.x, world.light.dir.y, world.light.dir.z);
 		//bindTexture();
 		world.draw();
-		
+		mouseButtonCallback();
 		// update other events like input handling 
 		glfwPollEvents();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers(window);
-
-		timer.updateLastTime();
 	}
 
 	cleanUp();

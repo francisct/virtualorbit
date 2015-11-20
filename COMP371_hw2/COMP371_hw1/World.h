@@ -8,22 +8,23 @@ using namespace std;
 #include "glm.hpp"
 
 #include "Shape.h"
+#include "Sphere.h"
+#include "Cube.h"
 #include "Player.h"
+#include "Light.h"
 
 class World {
 
 public:
 
-	vector<Shape> objects;
+	vector<Shape*> objects;
 	Player player;
-
-	std::vector<glm::vec3> templateVertices;
-	std::vector<glm::vec2> templateUvs;
-	std::vector<glm::vec3> templateNormals;
+	Light light;
+	Shape cubeTemplate;
+	Shape sphereTemplate;
 	World();
-	void registerVAOS(vector<GLuint>* vaos);
+	//void registerVAOS(vector<GLuint>* vaos);
 	void addPlayer();
-	void addShape(float widthRatio, float heightRatio, float depthRatio, float xTranslation, float yTranslation, float zTranslation);
 	void draw();
 	void rotateWorld(float speed);
 	void translate(glm::vec3 translateBy);

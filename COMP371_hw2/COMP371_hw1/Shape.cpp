@@ -13,31 +13,22 @@ extern glm::mat4 view_matrix;
 
 extern Timer timer;
 
-float incrementalRotation = 0.0f;
-float toRotate = 0.0f;
-float roationTimeLimit = 10.0f;
-bool rotationPending = false;
-bool translationPending = false;
-
-
 
 Shape::Shape(){}
 //I initialize the cube with always the same geometry then apply transformations to its model matrix
-Shape::Shape(float xTranslation, float zRotation, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
+Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
 	model = glm::mat4(1.0);
 	vertices = inV;
 	uvs = inU;
 	normals = inN;
-	//applying initial transformations
-	translate(glm::vec3(xTranslation, 0, 0));
-	rotateBy(zRotation);
 }
 
 void Shape::generateMVP() {
 	computeMatricesFromInputs();
 	proj_matrix = getProjectionMatrix();
 	view_matrix = getViewMatrix();
-	model = translation * rotation * scalation;
+	//model = translation * rotation * scalation;
+	model = scalation * rotation * translation;
 }
 
 void Shape::passMVPtoShader() {

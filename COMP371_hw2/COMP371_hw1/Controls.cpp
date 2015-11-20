@@ -27,7 +27,6 @@ extern double mouseXpos, mouseYpos;
 
 extern World world;
 
-
 vec3 upDirection = vec3{ 0.0f, 2.0f, 0.0f };
 vec3 rightDirection = vec3{ 2.0f, 0.0f, 0.0f };
 vec3 zoomDirection = vec3{ 0.0f, 0.0f, 2.0f };
@@ -35,21 +34,6 @@ vec3 zoomDirection = vec3{ 0.0f, 0.0f, 2.0f };
 
 float toDeg(float inRad) {
 	return (inRad * 360) / (2 * 3.14159265358979323846264338327950288);
-}
-
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-{
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
-		GLfloat realWidth = (GLfloat)(xpos - windowWidth / 2);
-		GLfloat realHeight = (GLfloat)(windowHeight / 2 - ypos);
-	}
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-
 }
 
 void keypress_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -120,7 +104,26 @@ void computeMatricesFromInputs() {
 }
 
 void watchCursorCallback(GLFWwindow *window, double xpos, double ypos) {
-	mouseXpos = xpos;
-	mouseYpos = ypos;
-//	glfwGetCursorPos(window, &mouseXpos, &mouseYpos);
+	float xCoordPos = xpos - windowWidth / 2;
+	float yCoordPos = (windowHeight / 2) - ypos;
+	//dividing by 30 approximate the position in object space
+	world.light.pos = vec3(xCoordPos/30 + position.x, yCoordPos/30 + position.y, world.light.pos.z);
+}
+
+void mouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
+	if (yoffset > 0) {
+		world.light.pos += glm::vec3( 0, 0, -0.5);
+	}
+	else {
+		world.light.pos += glm::vec3(0, 0, 0.5);
+	}
+}
+
+void mouseButtonCallback() {
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		world.generateCubeOnClickCallback();
+	}
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+		//world.generateSphereOnClickCallback();
+	}
 }
