@@ -55,6 +55,9 @@ GLfloat point_size = 1.0f;
 int windowWidth = 640;
 int windowHeight = 480;
 
+// Get mouse position
+double mouseXpos = 0, mouseYpos = 0;
+
 bool initialize() {
 	/// Initialize GL context and O/S window using the GLFW helper library
 	if (!glfwInit()) {
@@ -114,6 +117,8 @@ void setCallbacks() {
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetKeyCallback(window, keypress_callback);
 	//glfwSetScrollCallback(window, scroll_callback);
+	glfwSetCursorPosCallback(window, watchCursorCallback);
+	glfwSetMouseButtonCallback(window, world.generateCubeOnClickCallback);
 }
 
 void loadTexture() {

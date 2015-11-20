@@ -37,7 +37,7 @@ void Shape::generateMVP() {
 	computeMatricesFromInputs();
 	proj_matrix = getProjectionMatrix();
 	view_matrix = getViewMatrix();
-	model = translation * rotation;
+	model = translation * rotation * scalation;
 }
 
 void Shape::passMVPtoShader() {
@@ -149,6 +149,10 @@ void Shape::rotate90(float speed) {
 void Shape::translate(glm::vec3 travelTo) {
 	//based on the old translation matrix I add append my new translation
 	translation = glm::translate(translation, travelTo);
+}
+
+void Shape::scale(glm::vec3 multiplier) {
+	scalation = glm::scale(scalation, multiplier);
 }
 
 glm::mat4 Shape::swapXandY(const glm::mat4 &toSwap) {

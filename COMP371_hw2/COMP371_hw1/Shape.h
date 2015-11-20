@@ -23,6 +23,7 @@ public:
 	glm::mat4 model;
 	glm::mat4 rotation;
 	glm::mat4 translation;
+	glm::mat4 scalation;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
@@ -33,7 +34,6 @@ public:
 	bool rotationPending;
 	bool translationPending;
 
-	Timer timer;
 	Shape();
 	Shape(float xTranslation, float zRotation, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
 	void generateMVP();
@@ -45,6 +45,7 @@ public:
 	void rotateBy(float angle);
 	virtual void rotate90(float speed);
 	virtual void translate(glm::vec3 travelTo);
+	void scale(glm::vec3 multiplier);
 	glm::mat4 swapXandY(const glm::mat4 &toSwap);
 
 };

@@ -23,6 +23,8 @@ vec3 position = vec3(0, 0, 15);
 extern int windowWidth;
 extern int windowHeight;
 
+extern double mouseXpos, mouseYpos;
+
 extern World world;
 
 
@@ -115,4 +117,10 @@ void computeMatricesFromInputs() {
 		vec3(0, 1, 0)         // Head is up (set to 0,-1,0 to look upside-down)
 		);
 	glViewport(0, 0, windowWidth, windowHeight);
+}
+
+void watchCursorCallback(GLFWwindow *window, double xpos, double ypos) {
+	mouseXpos = xpos;
+	mouseYpos = ypos;
+//	glfwGetCursorPos(window, &mouseXpos, &mouseYpos);
 }

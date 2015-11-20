@@ -12,5 +12,8 @@ public:
 	void jump();
 	void translate(glm::vec3 travelTo);
 	void rotate90(float speed);
+	void moveFlashlightCallback() {
+
+	}
 
 };

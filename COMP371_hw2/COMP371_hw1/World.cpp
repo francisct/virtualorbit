@@ -4,6 +4,8 @@
 #include "World.h"
 #include "ObjLdr.h"
 
+extern double mouseXpos, mouseYpos;
+extern Timer timer;
 
 World::World() {
 	loadOBJ("cube.obj", templateVertices, templateUvs, templateNormals);
@@ -66,4 +68,19 @@ void World::destroy() {
 		glDeleteBuffers(1, &objects[i].uvbuffer);
 		glDeleteBuffers(1, &objects[i].normalbuffer);
 	}
+}
+
+void World::generateCubeOnClickCallback() {
+	//if this is a new click and not that the button is still pressed 
+	if (timer.mouseUnpressedDelta > 0.5) {
+		this->addShape(0.2, 0.2, 0.2, mouseXpos, mouseYpos, 0);	
+	}
+	//get latest shape and scale it. Keeping the mouse press will continue to scale the same cube
+	Shape *shape = &this->objects.back();
+	shape->scale(glm::vec3(1.1,1.1,1.1));
+
+	//reset time that mouse is unpressed
+	timer.mouseUnpressedDelta = 0.0;
+	
+	
 }

@@ -12,6 +12,8 @@ public:
 	float currentTime;
 	float elapsedTime;
 
+	float mouseUnpressedDelta;
+
 	Timer();
 	void reset();
 	float getElapsedTime();

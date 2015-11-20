@@ -27,6 +27,7 @@ public:
 	void draw();
 	void rotateWorld(float speed);
 	void translate(glm::vec3 translateBy);
+	void generateCubeOnClickCallback();
 	void destroy();
 
 };
