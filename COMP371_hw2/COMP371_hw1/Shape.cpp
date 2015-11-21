@@ -3,19 +3,26 @@
 #include "Controls.h"
 #include "ObjLdr.h"
 #include "GLOBALS.h"
-
-extern GLuint view_matrix_id;
-extern GLuint model_matrix_id;
-extern GLuint proj_matrix_id;
-
-extern glm::mat4 proj_matrix;
-extern glm::mat4 view_matrix;
+#include "World.h"
 
 extern Timer timer;
+extern World world;
 
+Shape::Shape() {}
+Shape::Shape(glm::vec3 ratio, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
+	model = glm::mat4(1.0);
+	vertices = inV;
 
-Shape::Shape(){}
-//I initialize the cube with always the same geometry then apply transformations to its model matrix
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i].x = vertices[i].x * ratio.x;
+		vertices[i].y = vertices[i].y * ratio.y;
+		vertices[i].z = vertices[i].z * ratio.z;
+	}
+
+	uvs = inU;
+	normals = inN;
+}
+
 Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
 	model = glm::mat4(1.0);
 	vertices = inV;
@@ -25,18 +32,14 @@ Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector
 
 void Shape::generateMVP() {
 	computeMatricesFromInputs();
-	proj_matrix = getProjectionMatrix();
-	view_matrix = getViewMatrix();
-	//model = translation * rotation * scalation;
-	model = scalation * rotation * translation;
+	model = translation * rotation * scalation;
+	//model = scalation * rotation * translation;
 }
 
 void Shape::passMVPtoShader() {
 	generateMVP();
 	//registering my matrices to be used in the shaders
-	glUniformMatrix4fv(proj_matrix_id, 1, GL_FALSE, glm::value_ptr(proj_matrix));
-	glUniformMatrix4fv(view_matrix_id, 1, GL_FALSE, glm::value_ptr(view_matrix));
-	glUniformMatrix4fv(model_matrix_id, 1, GL_FALSE, glm::value_ptr(model));
+	world.cam.passMVPtoShader(&model);
 }
 
 void Shape::initObj() {
@@ -69,7 +72,7 @@ void Shape::initObj() {
 	else {
 		glBufferData(GL_ARRAY_BUFFER, NULL, NULL, GL_STATIC_DRAW);
 	}
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 
@@ -85,7 +88,7 @@ void Shape::initObj() {
 	else {
 		glBufferData(GL_ARRAY_BUFFER, NULL, NULL, GL_STATIC_DRAW);
 	}
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
@@ -95,16 +98,17 @@ void Shape::draw() {
 	}
 	passMVPtoShader();
 
-	glBindVertexArray(vao);
+	//glBindVertexArray(vao);
 	initObj();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
 }
 
 void Shape::setupRotation(float speed) {
 	rotationPending = true;
 	incrementalRotation = 1;
 	toRotate = speed;
+	timer.reset();
 }
 
 void Shape::resetRotation() {
@@ -126,7 +130,7 @@ void Shape::rotate90(float speed) {
 	if (incrementalRotation*speed <= ROTATION_90 && incrementalRotation*speed >= -ROTATION_90) {
 		if (timer.elapsedTime >= roationTimeLimit) {
 			rotation = glm::rotate(rotation, speed, glm::vec3(0, 1, 0));
-			
+
 			incrementalRotation++;
 			timer.reset();
 		}

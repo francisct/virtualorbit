@@ -1,242 +1,33 @@
-﻿Build started 20/11/2015 5:12:20 PM.
+﻿Build started 21/11/2015 12:15:15 AM.
      1>Project "C:\Ecole\COMP371game\COMP371_hw2\COMP371_hw1\COMP371_hw1.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (COMP371_hw1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt ObjLdr.cpp Solid.cpp
-         Solid.cpp
-         ObjLdr.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Driver.cpp TextureLdr.cpp
+         TextureLdr.cpp
+         Driver.cpp
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(127): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(129): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(130): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(131): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
          Generating Code...
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /showIncludes /analyze- /errorReport:prompt World.cpp
-         World.cpp
-         Note: including file: c:\ecole\comp371game\comp371_hw2\comp371_hw1\World.h
-         Note: including file:  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vector
-         Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory
-         Note: including file:    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory0
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cstdint
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\yvals.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xkeycheck.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\crtdefs.h
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\sal.h
-         Note: including file:          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\ConcurrencySal.h
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vadefs.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt.h
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\use_ansi.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdint.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cstdlib
-         Note: including file:      C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\stdlib.h
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_malloc.h
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_search.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\stddef.h
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wstdlib.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\limits.h
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\limits
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\ymath.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cfloat
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\float.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\climits
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cmath
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\math.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xtgmath.h
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xtr1common
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cwchar
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\wchar.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_memcpy_s.h
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\errno.h
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_string.h
-         Note: including file:          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wconio.h
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_stdio_config.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wctype.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wdirect.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wio.h
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_share.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wprocess.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wstdio.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wstring.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_wtime.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\sys/stat.h
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\sys/types.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstddef
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cstddef
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\initializer_list
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\new
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\exception
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\type_traits
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\malloc.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\eh.h
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_terminate.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_new.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\utility
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\iosfwd
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cstdio
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\stdio.h
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cstring
-         Note: including file:         C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\string.h
-         Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\corecrt_memory.h
-         Note: including file:        C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\crtdbg.h
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_new_debug.h
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xatomic0.h
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\intrin.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\setjmp.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\immintrin.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\wmmintrin.h
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\nmmintrin.h
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\smmintrin.h
-         Note: including file:          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\tmmintrin.h
-         Note: including file:           C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\pmmintrin.h
-         Note: including file:            C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\emmintrin.h
-         Note: including file:             C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmmintrin.h
-         Note: including file:              C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\mmintrin.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\ammintrin.h
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\mm3dnow.h
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\stdexcept
-         Note: including file:    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring
-         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\..\glew\glew.h
-         Note: including file:   C:\Program Files (x86)\Windows Kits\8.1\Include\um\GL/glu.h
-         Note: including file:    C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winapifamily.h
-         Note: including file:    C:\Program Files (x86)\Windows Kits\8.1\Include\um\GL/gl.h
-         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\..\glfw\glfw3.h
-         Note: including file:   C:\Program Files (x86)\Windows Kits\8.1\Include\um\GL/gl.h
-         Note: including file:  C:\Ecole\COMP371game\COMP371_hw2\glm\glm.hpp
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\detail/_fixes.hpp
-         Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cassert
-         Note: including file:    C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\assert.h
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\fwd.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_int.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\setup.hpp
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cassert
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\assert.h
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_float.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_vec.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\precision.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat.hpp
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\vec2.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_vec2.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_vec2.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\vec3.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_vec3.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_vec3.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\vec4.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_vec4.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_vec4.inl
-         Note: including file:      c:\ecole\comp371game\comp371_hw2\glm\detail\type_vec4_sse2.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat2x2.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat2x2.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat2x2.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat2x3.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat2x3.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat2x3.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat2x4.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat2x4.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat2x4.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat3x2.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat3x2.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat3x2.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat3x3.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat3x3.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat3x3.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat3x4.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat3x4.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat3x4.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat4x2.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat4x2.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat4x2.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat4x3.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat4x3.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat4x3.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\mat4x4.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/type_mat4x4.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\type_mat4x4.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\trigonometric.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_trigonometric.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_trigonometric.inl
-         Note: including file:      c:\ecole\comp371game\comp371_hw2\glm\detail\_vectorize.hpp
-         Note: including file:       c:\ecole\comp371game\comp371_hw2\glm\detail\type_vec1.hpp
-         Note: including file:        c:\ecole\comp371game\comp371_hw2\glm\detail\type_vec1.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\exponential.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_exponential.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_exponential.inl
-         Note: including file:      c:\ecole\comp371game\comp371_hw2\glm\detail\func_vector_relational.hpp
-         Note: including file:       c:\ecole\comp371game\comp371_hw2\glm\detail\func_vector_relational.inl
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cassert
-         Note: including file:       C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\assert.h
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\common.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_common.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\_fixes.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_common.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\packing.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_packing.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_packing.inl
-         Note: including file:      c:\ecole\comp371game\comp371_hw2\glm\detail\type_half.hpp
-         Note: including file:       c:\ecole\comp371game\comp371_hw2\glm\detail\type_half.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\geometric.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_geometric.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_geometric.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\matrix.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_matrix.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_matrix.inl
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\vector_relational.hpp
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\glm\integer.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\detail/func_integer.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\detail\func_integer.inl
-         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Shape.h
-         Note: including file:   C:\Ecole\COMP371game\COMP371_hw2\glm\gtc/matrix_transform.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\gtc\../gtc/constants.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\gtc\constants.inl
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\gtc\matrix_transform.inl
-         Note: including file:   C:\Ecole\COMP371game\COMP371_hw2\glm\gtc/type_ptr.hpp
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\gtc\../gtc/quaternion.hpp
-         Note: including file:     c:\ecole\comp371game\comp371_hw2\glm\gtc\quaternion.inl
-         Note: including file:    c:\ecole\comp371game\comp371_hw2\glm\gtc\type_ptr.inl
-         Note: including file:   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\iostream
-         Note: including file:    C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\istream
-         Note: including file:     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\ostream
-         Note: including file:      C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\ios
-         Note: including file:       C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xlocnum
-         Note: including file:        C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\streambuf
-         Note: including file:         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xiosbase
-         Note: including file:          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xlocale
-         Note: including file:           C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\typeinfo
-         Note: including file:            C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_typeinfo.h
-         Note: including file:             C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime.h
-         Note: including file:           C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xlocinfo
-         Note: including file:            C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xlocinfo.h
-         Note: including file:             C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\ctype.h
-         Note: including file:             C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\locale.h
-         Note: including file:           C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xfacet
-         Note: including file:          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\system_error
-         Note: including file:           C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\cerrno
-         Note: including file:          C:\Program Files (x86)\Windows Kits\10\Include\10.0.10150.0\ucrt\share.h
-         Note: including file:   c:\ecole\comp371game\comp371_hw2\comp371_hw1\Timer.h
-         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Player.h
-         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Light.h
-         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Solid.h
-         Note: including file: c:\ecole\comp371game\comp371_hw2\comp371_hw1\ObjLdr.h
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(18): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(26): error C2065: 'templateVertices': undeclared identifier
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(26): error C2065: 'templateUvs': undeclared identifier
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(26): error C2065: 'templateNormals': undeclared identifier
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(31): error C2065: 'templateVertices': undeclared identifier
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(32): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(38): error C2065: 'templateUvs': undeclared identifier
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(38): error C2065: 'templateNormals': undeclared identifier
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(43): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(51): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(59): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(67): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(77): warning C4305: 'argument': truncation from 'double' to 'float'
-     1>Done Building Project "C:\Ecole\COMP371game\COMP371_hw2\COMP371_hw1\COMP371_hw1.vcxproj" (Build target(s)) -- FAILED.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\glfw /LIBPATH:..\glew glew32.lib glu32.lib opengl32.lib glfw3dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.lib" /MACHINE:X86 Debug\Cam.obj
+         Debug\Cube.obj
+         Debug\Light.obj
+         Debug\ObjLdr.obj
+         Debug\Player.obj
+         Debug\ShaderLdr.obj
+         Debug\Shape.obj
+         Debug\Driver.obj
+         Debug\Controls.obj
+         Debug\Sphere.obj
+         Debug\TextureLdr.obj
+         Debug\World.obj
+         Debug\stdafx.obj
+         Debug\Timer.obj
+         COMP371_hw1.vcxproj -> C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.exe
+     1>Done Building Project "C:\Ecole\COMP371game\COMP371_hw2\COMP371_hw1\COMP371_hw1.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:01.72
+Time Elapsed 00:00:01.18

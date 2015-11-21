@@ -194,8 +194,6 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="COMP371_hw1.fs" />
-    <None Include="COMP371_hw1.vs" />
     <None Include="lightingAndTexture.fs" />
     <None Include="lightingAndTexture.vs" />
   </ItemGroup>

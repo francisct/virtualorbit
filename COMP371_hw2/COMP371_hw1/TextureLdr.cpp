@@ -3,8 +3,10 @@
 #include <string.h>
 
 #include <glew.h>
-
 #include <glfw3.h>
+
+#include "TextureLdr.h"
+
 
 GLuint loadBMP_custom(const char * imagepath){
 

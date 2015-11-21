@@ -30,12 +30,13 @@ public:
 
 	float incrementalRotation = 0.0f;
 	float toRotate = 0.0f;
-	float roationTimeLimit = 10.0f;
+	float roationTimeLimit = 0.01f;
 	bool rotationPending = false;
 	bool translationPending = false;
 
 	Shape();
 	Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
+	Shape(glm::vec3 transform, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
 	void generateMVP();
 	void passMVPtoShader();
 	void initObj();

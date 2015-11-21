@@ -3,23 +3,7 @@
 
 
 extern GLFWwindow* window;
-extern int glRenderingType;
 
-mat4 ViewMatrix;
-mat4 ProjectionMatrix;
-
-float initialFoV = 45.0f;
-
-mat4 getViewMatrix() {
-	return ViewMatrix;
-}
-mat4 getProjectionMatrix() {
-	return ProjectionMatrix;
-}
-
-extern vector<vec3> vertices;
-
-vec3 position = vec3(0, 0, 15);
 extern int windowWidth;
 extern int windowHeight;
 
@@ -39,34 +23,24 @@ float toDeg(float inRad) {
 void keypress_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
 		switch (key) {
 
-		case GLFW_KEY_ENTER:
-			glRenderingType = GL_LINE_STRIP;
-			break;
-		case GLFW_KEY_BACKSPACE:
-			break;
-		case GLFW_KEY_L:
-			glRenderingType = GL_LINE_STRIP;
-			break;
-		case GLFW_KEY_P:
-			glRenderingType = GL_POINTS;
-			break;
+		
 		case GLFW_KEY_UP:
-			position += upDirection;
+			world.cam.position += upDirection;
 			break;
 		case GLFW_KEY_DOWN:
-			position -= upDirection;
+			world.cam.position -= upDirection;
 			break;
 		case GLFW_KEY_RIGHT:
-			position += rightDirection;
+			world.cam.position += rightDirection;
 			break;
 		case GLFW_KEY_LEFT:
-			position -= rightDirection;
+			world.cam.position -= rightDirection;
 			break;
 		case GLFW_KEY_E:
-			position -= zoomDirection;
+			world.cam.position -= zoomDirection;
 			break;
 		case GLFW_KEY_Q:
-			position += zoomDirection;
+			world.cam.position += zoomDirection;
 			break;
 		case GLFW_KEY_Z:
 			world.rotateWorld(ROTATE_LEFT);
@@ -75,16 +49,16 @@ void keypress_callback(GLFWwindow *window, int key, int scancode, int action, in
 			world.rotateWorld(ROTATE_RIGHT);
 			break;
 		case GLFW_KEY_W:
-			world.player.translate(TRANSLATE_UP);
+			world.player.shape->translate(TRANSLATE_UP);
 			break;
 		case GLFW_KEY_S:
-			world.player.translate(TRANSLATE_DOWN);
+			world.player.shape->translate(TRANSLATE_DOWN);
 			break;
 		case GLFW_KEY_A:
-			world.player.translate(TRANSLATE_LEFT);
+			world.player.shape->translate(TRANSLATE_LEFT);
 			break;
 		case GLFW_KEY_D:
-			world.player.translate(TRANSLATE_RIGHT);
+			world.player.shape->translate(TRANSLATE_RIGHT);
 			break;
 		}
 
@@ -93,11 +67,11 @@ void keypress_callback(GLFWwindow *window, int key, int scancode, int action, in
 
 void computeMatricesFromInputs() {
 	float ar = (float)windowWidth / (float)windowHeight;
-	ProjectionMatrix = glm::perspective(initialFoV, ar, 0.1f, 1000.0f);// Camera matrix
+	world.cam.ProjectionMatrix = glm::perspective(world.cam.initialFoV, ar, 0.1f, 1000.0f);// Camera matrix
 
-	ViewMatrix = lookAt(
-		position,           // Camera is here
-		position + vec3(0.0f, 0.0f, -1.0f),
+	world.cam.ViewMatrix = lookAt(
+		world.cam.position,           // Camera is here
+		world.cam.position + vec3(0.0f, 0.0f, -1.0f),
 		vec3(0, 1, 0)         // Head is up (set to 0,-1,0 to look upside-down)
 		);
 	glViewport(0, 0, windowWidth, windowHeight);
@@ -106,8 +80,8 @@ void computeMatricesFromInputs() {
 void watchCursorCallback(GLFWwindow *window, double xpos, double ypos) {
 	float xCoordPos = xpos - windowWidth / 2;
 	float yCoordPos = (windowHeight / 2) - ypos;
-	//dividing by 30 approximate the position in object space
-	world.light.pos = vec3(xCoordPos/30 + position.x, yCoordPos/30 + position.y, world.light.pos.z);
+	//dividing by 30 approximate the world.cam.position in object space
+	world.light.pos = vec3(xCoordPos/30 + world.cam.position.x, yCoordPos/30 + world.cam.position.y, world.light.pos.z);
 }
 
 void mouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
@@ -121,9 +95,9 @@ void mouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
 
 void mouseButtonCallback() {
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-		world.generateCubeOnClickCallback();
+		world.generateShapeOnClickCallback(new Cube());
 	}
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		//world.generateSphereOnClickCallback();
+		world.generateShapeOnClickCallback(new Sphere());
 	}
 }

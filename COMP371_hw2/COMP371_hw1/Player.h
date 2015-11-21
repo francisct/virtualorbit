@@ -6,7 +6,7 @@ class Player {
 
 public:
 	Shape *shape;
-
+	Player();
 	Player(Shape *shape);
 	void jump();
 

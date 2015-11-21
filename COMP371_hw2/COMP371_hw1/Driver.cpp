@@ -41,12 +41,6 @@ GLuint shader_program = 0;
 GLuint Texture;
 GLuint TextureID;
 
-GLuint view_matrix_id = 0;
-GLuint model_matrix_id = 0;
-GLuint proj_matrix_id = 0;
-
-glm::mat4 proj_matrix;
-glm::mat4 view_matrix;
 
 ///Change the size of the rendered points
 GLfloat point_size = 1.0f;
@@ -74,9 +68,6 @@ bool initialize() {
 		return false;
 	}
 	
-
-	int w, h;
-	glfwGetWindowSize(window, &w, &h);
 	glfwMakeContextCurrent(window);
 
 	/// Initialize GLEW extension handler
@@ -93,10 +84,7 @@ bool initialize() {
 	glEnable(GL_DEPTH_TEST); /// Enable depth-testing
 	glDepthFunc(GL_LESS);	/// The type of testing i.e. a smaller value as "closer"
 
-	//MVP
-	glm::mat4 proj_matrix = getProjectionMatrix();
-	glm::mat4 view_matrix = getViewMatrix();
-
+	shader_program = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
 	// Set the cursor position for first frame
 	glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
 	return true;
@@ -119,28 +107,9 @@ void setCallbacks() {
 	//glfwSetMouseButtonCallback(window, mouseButtonCallback);
 }
 
-void loadTexture() {
-	// Load the texture
-    Texture = loadDDS("uvmap.DDS");
-	// Get a handle for our "myTextureSampler" uniform
-	TextureID = glGetUniformLocation(shader_program, "myTextureSampler");
-}
 
-void bindTexture() {
-	// Bind our texture in Texture Unit 0
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Texture);
-	// Set our "myTextureSampler" sampler to user Texture Unit 0
-	glUniform1i(TextureID, 0);
-}
 
-void setMVPids(GLuint shaderID) {
-	//The three variables below hold the id of each of the variables in the shader
-	//If you read the vertex shader file you'll see that the same variable names are used.
-	view_matrix_id = glGetUniformLocation(shaderID, "view_matrix");
-	model_matrix_id = glGetUniformLocation(shaderID, "model_matrix");
-	proj_matrix_id = glGetUniformLocation(shaderID, "proj_matrix");
-}
+
 
 int main() {
 	///Make sure the size of vec3 is the same as 3 floats
@@ -148,25 +117,27 @@ int main() {
 	assert(sizeof(glm::uvec3) == sizeof(unsigned int) * 3);
 
 	initialize();
+	glUseProgram(shader_program);
+
 	setCallbacks();
 	
-	//shader_program = loadShaders("COMP371_hw1.vs", "COMP371_hw1.fs");
-    shader_program = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
-
-	setMVPids(shader_program);
-	
-	world = World();
+	world = World(shader_program);
+	world.cam.setMVPids(shader_program);
 	//add main platform
-	world.addPlayer();
-	world.addShape( 10, 0.3, 1,glm::vec3( 1, -1, 0));
-	//world.addShape(3, 0.3, 1, 3, 4, 0);
+	world.player.shape = new Sphere();
+	world.player.shape->translate(glm::vec3(0, 1.2, 0));
+	world.player.shape->rotateBy(-3.14/2);
+	world.objects.push_back(new Cube(glm::vec3(10, 0.3, 1)));
+	world.objects.push_back(new Cube(glm::vec3(3, 0.3, 1)));
+	world.objects.back()->translate(glm::vec3(3, 4, 0));
 	//vector<GLuint> vaos;
 	//world.registerVAOS(&vaos);
 
-	loadTexture();
-	glUseProgram(shader_program);
-	GLuint LightPosID = glGetUniformLocation(shader_program, "LightPosition_worldspace");
-	GLuint LightDirID = glGetUniformLocation(shader_program, "LightDirection_cameraspace");
+	// Load the texture
+	//*texture = loadDDS("eyeball.DDS");
+	Texture = loadBMP_custom("eyeball.bmp");
+	// Get a handle for our "myTextureSampler" uniform
+	TextureID = glGetUniformLocation(shader_program, "myTextureSampler");
 
 	timer = Timer();
 	while (!glfwWindowShouldClose(window)) {
@@ -178,10 +149,6 @@ int main() {
 		glPointSize(point_size);
 		
 		glUseProgram(shader_program);
-
-		glUniform3f(LightPosID, world.light.pos.x, world.light.pos.y, world.light.pos.z);
-		glUniform3f(LightDirID, world.light.dir.x, world.light.dir.y, world.light.dir.z);
-		//bindTexture();
 		world.draw();
 		mouseButtonCallback();
 		// update other events like input handling 

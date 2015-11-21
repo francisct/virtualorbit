@@ -7,9 +7,11 @@
 extern double mouseXpos, mouseYpos;
 extern Timer timer;
 
-World::World() {
+World::World() {}
+World::World(GLuint shader_program) {
 	cubeTemplate = loadOBJ("cube.obj");
 	sphereTemplate = loadOBJ("sphere.obj");
+	light.registerAsUniform(shader_program);
 }
 /*
 void World::registerVAOS(vector<GLuint>* vaos) {
@@ -22,31 +24,29 @@ void World::registerVAOS(vector<GLuint>* vaos) {
 	glGenVertexArrays(objects.size()+1, &vaos->at(0));
 }
 */
-void World::addPlayer() {
-	player = Player(new Sphere(glm::vec3(0,0,0), glm::vec3(0,0,0));
-}
 
 
 void World::draw() {
 
+	    player.shape->draw();
 	for (int i = 0; i < objects.size(); i++) {
-		player.shape->draw();
 		objects[i]->draw();
 	}
+	light.sendToShader();
 }
 
 void World::rotateWorld(float speed) {
 
+	player.shape->rotate90(speed);
 	for (int i = 0; i < objects.size(); i++) {
-		player.shape->rotate90(speed);
 		objects[i]->rotate90(speed);
 	}
 }
 
 void World::translate(glm::vec3 translateBy) {
 
+	player.shape->translate(translateBy);
 	for (int i = 0; i < objects.size(); i++) {
-		player.shape->translate(translateBy);
 		objects[i]->translate(translateBy);
 	}
 }
@@ -60,13 +60,15 @@ void World::destroy() {
 	}
 }
 
-void World::generateCubeOnClickCallback() {
-	//if this is a new click and not that the button is still pressed 
-	if (timer.mouseUnpressedTime > 0.5) {
-		this->addShape(0.1, 0.1, 0.1, glm::vec3(light.pos.x/2, light.pos.y/2, light.pos.z-2));	
+void World::generateShapeOnClickCallback(Shape *shape) {
+	//if this is a new click and not that the button is still pressed create new shape
+	if (timer.mouseUnpressedTime > 0.1) {
+		objects.push_back(shape);
+		objects.back()->scale(glm::vec3(0.1, 0.1, 0.1));
+		objects.back()->translate(glm::vec3(light.pos.x, light.pos.y, light.pos.z - 2));
 	}
 	//get latest shape and scale it. Keeping the mouse press will continue to scale the same cube
-	Shape *shape = &this->objects.back();
+	shape = this->objects.back();
 	shape->scale(glm::vec3(1.05,1.05,1.05));
 	std::cout << "salut";
 

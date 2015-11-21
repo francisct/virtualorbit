@@ -127,12 +127,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="COMP371_hw1.fs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="COMP371_hw1.vs">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="lightingAndTexture.fs">
       <Filter>Resource Files</Filter>
     </None>
