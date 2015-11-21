@@ -39,11 +39,10 @@ void Shape::generateMVP() {
 void Shape::passMVPtoShader() {
 	generateMVP();
 	//registering my matrices to be used in the shaders
-	world.cam.passMVPtoShader(&model);
+	//world.cam.passMVPtoShader(&model);
 }
 
-void Shape::initObj() {
-
+void Shape::sendVertices() {
 
 	//setup vbo for vertices
 	glGenBuffers(1, &vertexbuffer);
@@ -58,8 +57,9 @@ void Shape::initObj() {
 	}
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
-
+void Shape::sendUVs() {
 
 	//setup vbo for uvs
 	glGenBuffers(1, &uvbuffer);
@@ -74,9 +74,9 @@ void Shape::initObj() {
 	}
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
-
-
+void Shape::sendNormals() {
 	//setup vbo for normals
 	glGenBuffers(1, &normalbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
@@ -92,18 +92,21 @@ void Shape::initObj() {
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
-void Shape::draw() {
+void Shape::drawObject() {
 	if (rotationPending) {
 		rotate90(toRotate);
 	}
 	passMVPtoShader();
-
-	//glBindVertexArray(vao);
-	initObj();
+	sendVertices();
+	sendUVs();
+	sendNormals();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-	//glBindVertexArray(0);
+	
 }
-
+void Shape::drawShadow() {
+	sendVertices();
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+}
 void Shape::setupRotation(float speed) {
 	rotationPending = true;
 	incrementalRotation = 1;

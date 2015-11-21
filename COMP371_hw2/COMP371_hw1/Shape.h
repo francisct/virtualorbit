@@ -28,6 +28,7 @@ public:
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 
+
 	float incrementalRotation = 0.0f;
 	float toRotate = 0.0f;
 	float roationTimeLimit = 0.01f;
@@ -39,8 +40,11 @@ public:
 	Shape(glm::vec3 transform, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
 	void generateMVP();
 	void passMVPtoShader();
-	void initObj();
-	void draw();
+	void sendVertices();
+	void sendUVs();
+	void sendNormals();
+	void drawObject();
+	void drawShadow();
 	void setupRotation(float speed);
 	void resetRotation();
 	void rotateBy(float angle);

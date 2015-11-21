@@ -37,10 +37,13 @@ int glRenderingType = GL_TRIANGLES;
 Timer timer;
 World world;
 
-GLuint shader_program = 0;
+GLuint simpleLightShaders = 0;
 GLuint Texture;
 GLuint TextureID;
 
+
+GLuint depthShaders;
+GLuint realisticLightShaders;
 
 ///Change the size of the rendered points
 GLfloat point_size = 1.0f;
@@ -84,7 +87,10 @@ bool initialize() {
 	glEnable(GL_DEPTH_TEST); /// Enable depth-testing
 	glDepthFunc(GL_LESS);	/// The type of testing i.e. a smaller value as "closer"
 
-	shader_program = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
+	simpleLightShaders = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
+
+	depthShaders = loadShaders("DepthRTT.vertexshader", "DepthRTT.fragmentshader");
+	realisticLightShaders = loadShaders("ShadowMapping.vertexshader", "ShadowMapping.fragmentshader");
 	// Set the cursor position for first frame
 	glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
 	return true;
@@ -107,7 +113,11 @@ void setCallbacks() {
 	//glfwSetMouseButtonCallback(window, mouseButtonCallback);
 }
 
-
+void prepareGL() {
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 
 
 
@@ -117,44 +127,115 @@ int main() {
 	assert(sizeof(glm::uvec3) == sizeof(unsigned int) * 3);
 
 	initialize();
-	glUseProgram(shader_program);
+
+	// Get a handle for our "MVP" uniform
+	GLuint depthMatrixID = glGetUniformLocation(depthShaders, "depthMVP");
+	// Get a handle for our "MVP" uniform
+	GLuint MatrixID = glGetUniformLocation(realisticLightShaders, "MVP");
+	GLuint ViewMatrixID = glGetUniformLocation(realisticLightShaders, "V");
+	GLuint ModelMatrixID = glGetUniformLocation(realisticLightShaders, "M");
+	GLuint DepthBiasID = glGetUniformLocation(realisticLightShaders, "DepthBiasMVP");
+	GLuint ShadowMapID = glGetUniformLocation(realisticLightShaders, "shadowMap");
+
+	// Get a handle for our "LightPosition" uniform
+	GLuint lightInvDirID = glGetUniformLocation(realisticLightShaders, "LightInvDirection_worldspace");
+
+
 
 	setCallbacks();
 	
-	world = World(shader_program);
-	world.cam.setMVPids(shader_program);
+	world = World(realisticLightShaders);
+	//world.cam.setMVPids(simpleLightShaders);
 	//add main platform
 	world.player.shape = new Sphere();
-	world.player.shape->translate(glm::vec3(0, 1.2, 0));
+	world.player.shape->translate(glm::vec3(0, 5, 0));
 	world.player.shape->rotateBy(-3.14/2);
 	world.objects.push_back(new Cube(glm::vec3(10, 0.3, 1)));
 	world.objects.push_back(new Cube(glm::vec3(3, 0.3, 1)));
 	world.objects.back()->translate(glm::vec3(3, 4, 0));
-	//vector<GLuint> vaos;
-	//world.registerVAOS(&vaos);
-
-	// Load the texture
-	//*texture = loadDDS("eyeball.DDS");
-	Texture = loadBMP_custom("eyeball.bmp");
-	// Get a handle for our "myTextureSampler" uniform
-	TextureID = glGetUniformLocation(shader_program, "myTextureSampler");
+	
 
 	timer = Timer();
 	while (!glfwWindowShouldClose(window)) {
 		
 		timer.getElapsedTime();
+		// The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
+		GLuint depthTexture = prepareDepthTexture();
 
-		// wipe the drawing surface clear
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glPointSize(point_size);
-		
-		glUseProgram(shader_program);
-		world.draw();
-		mouseButtonCallback();
-		// update other events like input handling 
-		glfwPollEvents();
-		// put the stuff we've been drawing onto the display
+		//glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+		glViewport(0, 0, 1024, 1024); 
+		prepareGL();
+		glUseProgram(depthShaders);
+
+		glm::vec3 lightInvDir = world.light.pos;
+
+		// Compute the MVP matrix from the light's point of view
+		glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10, 10, -10, 10, -10, 20);
+		glm::mat4 depthViewMatrix = glm::lookAt(lightInvDir, glm::vec3(-1, -1, 0), glm::vec3(0, 1, 0));
+		// or, for spot light :
+		//glm::vec3 lightPos(5, 20, 20);
+		//glm::mat4 depthProjectionMatrix = glm::perspective<float>(45.0f, 1.0f, 2.0f, 50.0f);
+		//glm::mat4 depthViewMatrix = glm::lookAt(lightPos, lightPos-lightInvDir, glm::vec3(0,1,0));
+
+		glm::mat4 depthModelMatrix = glm::mat4(1.0);
+		glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * depthModelMatrix;
+
+		// Send our transformation to the currently bound shader, 
+		// in the "MVP" uniform
+		glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, &depthMVP[0][0]);
+
+		world.drawShadows();
+
+		// Render to the screen
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+		prepareGL();
+		glUseProgram(realisticLightShaders);
+
+		// Compute the MVP matrix from keyboard and mouse input
+		computeMatricesFromInputs();
+		glm::mat4 ProjectionMatrix = world.cam.ProjectionMatrix;
+		glm::mat4 ViewMatrix = world.cam.ViewMatrix;
+		//ViewMatrix = glm::lookAt(glm::vec3(14,6,4), glm::vec3(0,1,0), glm::vec3(0,1,0));
+		glm::mat4 ModelMatrix = glm::mat4(1.0);
+		glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
+
+		glm::mat4 biasMatrix(
+			0.5, 0.0, 0.0, 0.0,
+			0.0, 0.5, 0.0, 0.0,
+			0.0, 0.0, 0.5, 0.0,
+			0.5, 0.5, 0.5, 1.0
+			);
+
+		glm::mat4 depthBiasMVP = biasMatrix*depthMVP;
+
+		// Send our transformation to the currently bound shader, 
+		// in the "MVP" uniform
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix[0][0]);
+		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &ViewMatrix[0][0]);
+		glUniformMatrix4fv(DepthBiasID, 1, GL_FALSE, &depthBiasMVP[0][0]);
+
+		glUniform3f(lightInvDirID, lightInvDir.x, lightInvDir.y, lightInvDir.z);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthTexture);
+		glUniform1i(ShadowMapID, 1);
+
+		world.drawObjects();
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+
+		glViewport(0, 0, 512, 512);
+
+		glDisableVertexAttribArray(0);
+
+
+		// Swap buffers
 		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	cleanUp();

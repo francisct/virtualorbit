@@ -24,6 +24,7 @@ public:
 	Cam cam;
 	Shape cubeTemplate;
 	Shape sphereTemplate;
+	bool simpleLight = false;
 	World();
 	World(GLuint shader_program);
 	//void registerVAOS(vector<GLuint>* vaos);
@@ -32,5 +33,7 @@ public:
 	void translate(glm::vec3 translateBy);
 	void generateShapeOnClickCallback(Shape *shape);
 	void destroy();
+	void drawObjects();
+	void drawShadows();
 
 };

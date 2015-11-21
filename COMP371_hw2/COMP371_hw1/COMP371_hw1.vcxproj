@@ -157,8 +157,10 @@
     <ClInclude Include="Cam.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="GL.h" />
     <ClInclude Include="GLOBALS.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="MVP.h" />
     <ClInclude Include="ObjLdr.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ShaderLdr.h" />
@@ -173,7 +175,9 @@
   <ItemGroup>
     <ClCompile Include="Cam.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="GL.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="MVP.cpp" />
     <ClCompile Include="ObjLdr.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderLdr.cpp" />
@@ -194,8 +198,12 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DepthRTT.fragmentshader" />
+    <None Include="DepthRTT.vertexshader" />
     <None Include="lightingAndTexture.fs" />
     <None Include="lightingAndTexture.vs" />
+    <None Include="ShadowMapping.fragmentshader" />
+    <None Include="ShadowMapping.vertexshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

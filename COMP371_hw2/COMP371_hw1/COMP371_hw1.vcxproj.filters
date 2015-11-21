@@ -81,6 +81,12 @@
     <ClInclude Include="Sphere.h">
       <Filter>Header Files\Objects\Solids</Filter>
     </ClInclude>
+    <ClInclude Include="GL.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MVP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -125,12 +131,30 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files\Objects\Solids</Filter>
     </ClCompile>
+    <ClCompile Include="GL.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MVP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="lightingAndTexture.fs">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="lightingAndTexture.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DepthRTT.fragmentshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="DepthRTT.vertexshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ShadowMapping.fragmentshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ShadowMapping.vertexshader">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

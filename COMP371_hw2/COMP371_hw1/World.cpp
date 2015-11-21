@@ -11,7 +11,8 @@ World::World() {}
 World::World(GLuint shader_program) {
 	cubeTemplate = loadOBJ("cube.obj");
 	sphereTemplate = loadOBJ("sphere.obj");
-	light.registerAsUniform(shader_program);
+	
+	//light.registerAsUniform(shader_program);
 }
 /*
 void World::registerVAOS(vector<GLuint>* vaos) {
@@ -25,12 +26,27 @@ void World::registerVAOS(vector<GLuint>* vaos) {
 }
 */
 
-
 void World::draw() {
+	if (simpleLight) {
+		
+	}
+	else {
 
-	    player.shape->draw();
+	}
+}
+
+void World::drawObjects() {
+
+	    player.shape->drawObject();
 	for (int i = 0; i < objects.size(); i++) {
-		objects[i]->draw();
+		objects[i]->drawObject();
+	}
+}
+void World::drawShadows() {
+
+	player.shape->drawShadow();
+	for (int i = 0; i < objects.size(); i++) {
+		objects[i]->drawShadow();
 	}
 	light.sendToShader();
 }
