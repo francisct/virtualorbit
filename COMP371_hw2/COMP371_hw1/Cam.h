@@ -14,6 +14,8 @@ public:
 	GLuint view_matrix_id = 0;
 	GLuint model_matrix_id = 0;
 	GLuint proj_matrix_id = 0;
-	void setMVPids(GLuint shaderID);
+
+	
+	void generateIDs(GLuint shaderID);
 	void passMVPtoShader(const glm::mat4 *model);
 };

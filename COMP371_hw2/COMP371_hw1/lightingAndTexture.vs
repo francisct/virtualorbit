@@ -1,6 +1,6 @@
 #version 330
 
-uniform mat4 sView, sModel, sProj;	
+uniform mat4 P, V, M;	
 uniform vec3 LightPosition_worldspace, LightDirection_worldspace;
 
 layout(location = 0) in vec3 vertexPosition_modelspace;
@@ -16,7 +16,7 @@ out vec3 LightDirection_cameraspace;
 
 
 void main () {
-	mat4 CTM = sProj * sView * sModel;
+	mat4 CTM = P * V * M;
 	gl_Position = CTM * vec4 (vertexPosition_modelspace, 1.0);
 
 	// Position of the vertex, in worldspace : sModel * position

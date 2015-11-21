@@ -39,7 +39,7 @@ void Shape::generateMVP() {
 void Shape::passMVPtoShader() {
 	generateMVP();
 	//registering my matrices to be used in the shaders
-	//world.cam.passMVPtoShader(&model);
+	world.cam.passMVPtoShader(&model);
 }
 
 void Shape::sendVertices() {

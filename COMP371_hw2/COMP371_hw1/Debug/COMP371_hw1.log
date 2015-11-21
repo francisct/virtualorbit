@@ -1,19 +1,7 @@
-﻿Build started 21/11/2015 12:16:19 PM.
+﻿Build started 21/11/2015 1:10:27 PM.
      1>Project "C:\Ecole\COMP371game\COMP371_hw2\COMP371_hw1\COMP371_hw1.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (COMP371_hw1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Controls.cpp Cube.cpp Driver.cpp Shape.cpp Sphere.cpp
-         Driver.cpp
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(150): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(152): warning C4305: 'argument': truncation from 'double' to 'float'
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(153): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(154): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         Sphere.cpp
-         Shape.cpp
-         Cube.cpp
-         Controls.cpp
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /showIncludes /analyze- /errorReport:prompt World.cpp
          World.cpp
          Note: including file: c:\ecole\comp371game\comp371_hw2\comp371_hw1\World.h
@@ -230,13 +218,14 @@
          Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Cube.h
          Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Player.h
          Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Light.h
+         Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Shadows.h
          Note: including file:  c:\ecole\comp371game\comp371_hw2\comp371_hw1\Cam.h
          Note: including file: c:\ecole\comp371game\comp371_hw2\comp371_hw1\ObjLdr.h
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(41): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(48): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(57): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(65): warning C4018: '<': signed/unsigned mismatch
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(72): warning C4018: '<': signed/unsigned mismatch
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(42): warning C4018: '<': signed/unsigned mismatch
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(49): warning C4018: '<': signed/unsigned mismatch
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(58): warning C4018: '<': signed/unsigned mismatch
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(66): warning C4018: '<': signed/unsigned mismatch
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\world.cpp(73): warning C4018: '<': signed/unsigned mismatch
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\glfw /LIBPATH:..\glew glew32.lib glu32.lib opengl32.lib glfw3dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.lib" /MACHINE:X86 Debug\Cam.obj
          Debug\Cube.obj
@@ -246,6 +235,7 @@
          Debug\ObjLdr.obj
          Debug\Player.obj
          Debug\ShaderLdr.obj
+         Debug\Shadows.obj
          Debug\Shape.obj
          Debug\Driver.obj
          Debug\Controls.obj
@@ -259,4 +249,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.07
+Time Elapsed 00:00:01.17

@@ -12,6 +12,7 @@ using namespace std;
 #include "Cube.h"
 #include "Player.h"
 #include "Light.h"
+#include "Shadows.h"
 #include "Cam.h"
 
 class World {
@@ -21,12 +22,13 @@ public:
 	vector<Shape*> objects;
 	Player player;
 	Light light;
+	Shadows shadows;
 	Cam cam;
 	Shape cubeTemplate;
 	Shape sphereTemplate;
 	bool simpleLight = false;
 	World();
-	World(GLuint shader_program);
+	World(GLuint shaderProgram, GLuint depthShader);
 	//void registerVAOS(vector<GLuint>* vaos);
 	void draw();
 	void rotateWorld(float speed);

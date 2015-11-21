@@ -13,8 +13,8 @@ void Light::turnOff() {
 	color = glm::vec3(0, 0, 0);
 }
 
-void Light::registerAsUniform(GLuint shader_program) {
-	//lightPosID = glGetUniformLocation(shader_program, "LightPosition_worldspace");
+void Light::generateIDs(GLuint shaderProgram) {
+	lightPosID = glGetUniformLocation(shaderProgram, "LightPosition_worldspace");
 	//lightDirID = glGetUniformLocation(shader_program, "LightDirection_cameraspace");
 }
 

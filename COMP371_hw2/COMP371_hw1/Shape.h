@@ -21,6 +21,7 @@ public:
 	GLuint uvbuffer;
 	GLuint normalbuffer;
 	glm::mat4 model;
+	glm::mat4 shadowModel;
 	glm::mat4 rotation;
 	glm::mat4 translation;
 	glm::mat4 scalation;

@@ -8,11 +8,12 @@ extern double mouseXpos, mouseYpos;
 extern Timer timer;
 
 World::World() {}
-World::World(GLuint shader_program) {
+World::World(GLuint shaderProgram, GLuint depthShader) {
 	cubeTemplate = loadOBJ("cube.obj");
 	sphereTemplate = loadOBJ("sphere.obj");
-	
-	//light.registerAsUniform(shader_program);
+    light.generateIDs(shaderProgram);
+	cam.generateIDs(shaderProgram);
+	shadows.generateIDs(depthShader);
 }
 /*
 void World::registerVAOS(vector<GLuint>* vaos) {
