@@ -211,10 +211,9 @@ GLuint loadDDS(const char * imagepath){
 
 }
 
-GLuint prepareDepthTexture() {
-	GLuint FramebufferName = 0;
-	glGenFramebuffers(1, &FramebufferName);
-	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+GLuint prepareDepthTexture(GLuint *FramebufferName) {
+	glGenFramebuffers(1, FramebufferName);
+	glBindFramebuffer(GL_FRAMEBUFFER, *FramebufferName);
 
 	// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
 	GLuint depthTexture;

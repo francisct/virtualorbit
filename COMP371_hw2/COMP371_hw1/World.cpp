@@ -3,17 +3,19 @@
 
 #include "World.h"
 #include "ObjLdr.h"
+#include "TextureLdr.h"
 
 extern double mouseXpos, mouseYpos;
 extern Timer timer;
 
 World::World() {}
-World::World(GLuint shaderProgram, GLuint depthShader) {
+World::World(GLuint shaderID, GLuint depthShader) {
 	cubeTemplate = loadOBJ("cube.obj");
 	sphereTemplate = loadOBJ("sphere.obj");
-    light.generateIDs(shaderProgram);
-	cam.generateIDs(shaderProgram);
-	shadows.generateIDs(depthShader);
+    light.generateIDs(shaderID);
+	cam.generateIDs(shaderID);
+	shadows = Shadows(depthShader);
+	shadows.generateIDs(shaderID);
 }
 /*
 void World::registerVAOS(vector<GLuint>* vaos) {
@@ -28,32 +30,28 @@ void World::registerVAOS(vector<GLuint>* vaos) {
 */
 
 void World::draw() {
-	if (simpleLight) {
-		
-	}
-	else {
-
-	}
+	
 }
 
-void World::drawObjects() {
-
+void World::drawObjects(GLuint depthTexture) {
+	light.sendToShader();
+	shadows.activateDepthTexture(depthTexture);
 	    player.shape->drawObject();
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->drawObject();
 	}
 }
 void World::drawShadows() {
-
+	
 	player.shape->drawShadow();
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->drawShadow();
 	}
-	light.sendToShader();
+	
 }
 
 void World::rotateWorld(float speed) {
-
+	
 	player.shape->rotate90(speed);
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->rotate90(speed);

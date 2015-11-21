@@ -10,7 +10,6 @@ extern World world;
 
 Shape::Shape() {}
 Shape::Shape(glm::vec3 ratio, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
-	model = glm::mat4(1.0);
 	vertices = inV;
 
 	for (int i = 0; i < vertices.size(); i++) {
@@ -24,7 +23,6 @@ Shape::Shape(glm::vec3 ratio, std::vector<glm::vec3> inV, std::vector<glm::vec2>
 }
 
 Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
-	model = glm::mat4(1.0);
 	vertices = inV;
 	uvs = inU;
 	normals = inN;
@@ -33,7 +31,6 @@ Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector
 void Shape::generateMVP() {
 	computeMatricesFromInputs();
 	model = translation * rotation * scalation;
-	//model = scalation * rotation * translation;
 }
 
 void Shape::passMVPtoShader() {
@@ -93,6 +90,7 @@ void Shape::sendNormals() {
 }
 
 void Shape::drawObject() {
+	world.shadows.sendToShaderForObjectCalculations();
 	if (rotationPending) {
 		rotate90(toRotate);
 	}
@@ -101,9 +99,14 @@ void Shape::drawObject() {
 	sendUVs();
 	sendNormals();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-	
+
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
 }
 void Shape::drawShadow() {
+	world.shadows.sendToShaderForShadowCalculations(&model, world.light);
 	sendVertices();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }
