@@ -1,8 +1,8 @@
 #include "Light.h"
 
 Light::Light() {
-	pos = glm::vec3(0,5,0);
-	dir = glm::vec3( 0, -1, 0);
+	pos = glm::vec3(0,0,0);
+	dir = glm::vec3( 0, 0, 1);
 }
 
 void Light::turnOn() {

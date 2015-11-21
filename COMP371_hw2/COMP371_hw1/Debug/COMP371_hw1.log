@@ -1,19 +1,25 @@
-﻿Build started 21/11/2015 4:15:54 PM.
+﻿Build started 21/11/2015 5:53:43 PM.
      1>Project "C:\Ecole\COMP371game\COMP371_hw2\COMP371_hw1\COMP371_hw1.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (COMP371_hw1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Driver.cpp
-         Driver.cpp
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(141): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(143): warning C4305: 'argument': truncation from 'double' to 'float'
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(144): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
-     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\driver.cpp(145): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\cimg /I..\glm\gtx /I..\glm\gtc /I..\glm\detail /I..\glm /I..\glfw /I..\glew /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt SceneFactory.cpp
+         SceneFactory.cpp
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(9): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(12): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(15): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(18): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(21): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(26): warning C4316: 'Sphere': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(28): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(29): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
+     1>c:\ecole\comp371game\comp371_hw2\comp371_hw1\scenefactory.cpp(30): warning C4316: 'Cube': object allocated on the heap may not be aligned 16
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\glfw /LIBPATH:..\glew glew32.lib glu32.lib opengl32.lib glfw3dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Ecole\COMP371game\COMP371_hw2\Debug\COMP371_hw2.lib" /MACHINE:X86 Debug\Cam.obj
          Debug\Cube.obj
          Debug\Light.obj
          Debug\ObjLdr.obj
          Debug\Player.obj
+         Debug\SceneFactory.obj
          Debug\ShaderLdr.obj
          Debug\Shadows.obj
          Debug\Shape.obj
@@ -29,4 +35,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.03
+Time Elapsed 00:00:00.95

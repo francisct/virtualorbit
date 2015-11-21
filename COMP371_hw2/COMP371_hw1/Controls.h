@@ -22,4 +22,5 @@ void keypress_callback(GLFWwindow *window, int key, int scancode, int action, in
 void watchCursorCallback(GLFWwindow *window, double xpos, double ypos);
 void mouseButtonCallback();
 void mouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset);
+void toggleShader();
 

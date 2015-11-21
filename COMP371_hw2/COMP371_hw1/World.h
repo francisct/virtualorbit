@@ -28,6 +28,7 @@ public:
 	Shape sphereTemplate;
 	World();
 	World(GLuint shaderProgram, GLuint depthShader);
+	void updateShader(GLuint shaderID);
 	//void registerVAOS(vector<GLuint>* vaos);
 	void draw();
 	void rotateWorld(float speed);

@@ -161,6 +161,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="ObjLdr.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneFactory.h" />
     <ClInclude Include="ShaderLdr.h" />
     <ClInclude Include="Shadows.h" />
     <ClInclude Include="Shape.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="ObjLdr.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneFactory.cpp" />
     <ClCompile Include="ShaderLdr.cpp" />
     <ClCompile Include="Shadows.cpp" />
     <ClCompile Include="Shape.cpp" />

@@ -27,6 +27,7 @@ using namespace std;
 #include "TextureLdr.h"
 #include "ShaderLdr.h"
 #include "Cam.h"
+#include "SceneFactory.h"
 
 #define M_PI        3.14159265358979323846264338327950288   /* pi */
 #define DEG_TO_RAD	M_PI/180.0f
@@ -37,13 +38,16 @@ int glRenderingType = GL_TRIANGLES;
 Timer timer;
 World world;
 
-GLuint simpleLightShaders = 0;
 GLuint Texture;
 GLuint TextureID;
 
+GLuint depthTexture = 0;
 
-GLuint depthShaders;
-GLuint realisticLightShaders;
+GLuint currentShader = 0;
+GLuint depthShader = 0;
+GLuint realisticLightShader = 0;
+GLuint simpleLightShader = 0;
+bool shaderHasToggled = false;
 
 ///Change the size of the rendered points
 GLfloat point_size = 1.0f;
@@ -63,14 +67,14 @@ bool initialize() {
 
 	/// Create a window of size 640x480 and with title "Lecture 2: First Triangle"
 	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	
+
 	window = glfwCreateWindow(windowWidth, windowHeight, "A1-6615287", NULL, NULL);
 	if (!window) {
 		fprintf(stderr, "ERROR: could not open window with GLFW3\n");
 		glfwTerminate();
 		return false;
 	}
-	
+
 	glfwMakeContextCurrent(window);
 
 	/// Initialize GLEW extension handler
@@ -87,9 +91,9 @@ bool initialize() {
 	glEnable(GL_DEPTH_TEST); /// Enable depth-testing
 	glDepthFunc(GL_LESS);	/// The type of testing i.e. a smaller value as "closer"
 
-	simpleLightShaders = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
-	depthShaders = loadShaders("DepthRTT.vertexshader", "DepthRTT.fragmentshader");
-	realisticLightShaders = loadShaders("ShadowMapping.vertexshader", "ShadowMapping.fragmentshader");
+	simpleLightShader = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
+	depthShader = loadShaders("DepthRTT.vertexshader", "DepthRTT.fragmentshader");
+	realisticLightShader = loadShaders("ShadowMapping.vertexshader", "ShadowMapping.fragmentshader");
 	// Set the cursor position for first frame
 	glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
 	return true;
@@ -126,39 +130,47 @@ int main() {
 	assert(sizeof(glm::uvec3) == sizeof(unsigned int) * 3);
 
 	initialize();
-
+	currentShader = realisticLightShader;
 	setCallbacks();
-	
-	world = World(realisticLightShaders, depthShaders);
-	//world.cam.setMVPids(simpleLightShaders);
-	//add main platform
-	world.player.shape = new Sphere();
-	world.player.shape->translate(glm::vec3(0, 5, 0));
-	world.player.shape->rotateBy(-3.14/2);
-	world.objects.push_back(new Cube(glm::vec3(10, 0.3, 1)));
-	world.objects.push_back(new Cube(glm::vec3(3, 0.3, 1)));
-	world.objects.back()->translate(glm::vec3(3, 4, 0));
-	
 
+	world = World(currentShader, depthShader);
+	SceneFactory fac = SceneFactory(&world);
+	fac.buildAtom();
+
+	if (currentShader == simpleLightShader) {
+		Texture = loadBMP_custom("eyeball.bmp");
+		// Get a handle for our "myTextureSampler" uniform
+		TextureID = glGetUniformLocation(currentShader, "myTextureSampler");
+	}
+	      
 	timer = Timer();
 	while (!glfwWindowShouldClose(window)) {
-		
+
+		if (shaderHasToggled) {
+			world.updateShader(currentShader);
+			shaderHasToggled = false;
+		}
+
 		timer.getElapsedTime();
 
-		GLuint *FramebufferName = new GLuint();
-		GLuint depthTexture = prepareDepthTexture(FramebufferName);
 		
-		glBindFramebuffer(GL_FRAMEBUFFER, *FramebufferName);
-		glViewport(0, 0, 1024, 1024); 
+
+		if (currentShader == realisticLightShader) {
+			GLuint *FramebufferName = new GLuint();
+			depthTexture = prepareDepthTexture(FramebufferName);
+
+			glBindFramebuffer(GL_FRAMEBUFFER, *FramebufferName);
+			glViewport(0, 0, 1024, 1024);
+			prepareGL();
+
+			glUseProgram(depthShader);
+			world.drawShadows();
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+
 		prepareGL();
 
-		glUseProgram(depthShaders);
-		world.drawShadows();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-		prepareGL();
-
-		glUseProgram(realisticLightShaders);
+		glUseProgram(currentShader);
 		world.drawObjects(depthTexture);
 
 		//glViewport(0, 0, 512, 512);

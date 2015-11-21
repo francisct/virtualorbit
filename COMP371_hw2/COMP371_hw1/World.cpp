@@ -12,9 +12,15 @@ World::World() {}
 World::World(GLuint shaderID, GLuint depthShader) {
 	cubeTemplate = loadOBJ("cube.obj");
 	sphereTemplate = loadOBJ("sphere.obj");
-    light.generateIDs(shaderID);
-	cam.generateIDs(shaderID);
+	
 	shadows = Shadows(depthShader);
+	updateShader(shaderID);
+	
+}
+
+void World::updateShader(GLuint shaderID) {
+	light.generateIDs(shaderID);
+	cam.generateIDs(shaderID);
 	shadows.generateIDs(shaderID);
 }
 /*

@@ -6,6 +6,8 @@ extern GLFWwindow* window;
 
 extern int windowWidth;
 extern int windowHeight;
+extern GLuint currentShader, realisticLightShader, simpleLightShader;
+extern bool shaderHasToggled;
 
 extern double mouseXpos, mouseYpos;
 
@@ -23,7 +25,9 @@ float toDeg(float inRad) {
 void keypress_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
 		switch (key) {
 
-		
+		case GLFW_KEY_F:
+			toggleShader();
+			break;
 		case GLFW_KEY_UP:
 			world.cam.position += upDirection;
 			break;
@@ -99,5 +103,17 @@ void mouseButtonCallback() {
 	}
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 		world.generateShapeOnClickCallback(new Sphere());
+	}
+}
+
+void toggleShader() {
+	if (shaderHasToggled == false) {
+		if (currentShader == simpleLightShader) {
+			currentShader = realisticLightShader;
+		}
+		else {
+			currentShader = simpleLightShader;
+		}
+		shaderHasToggled = true;
 	}
 }
