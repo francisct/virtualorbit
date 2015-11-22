@@ -188,7 +188,6 @@ GLuint prepareDepthTexture(GLuint *FramebufferName) {
 	glGenFramebuffers(1, FramebufferName);
 	glBindFramebuffer(GL_FRAMEBUFFER, *FramebufferName);
 
-	// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
 	GLuint depthTexture;
 	glGenTextures(1, &depthTexture);
 	glBindTexture(GL_TEXTURE_2D, depthTexture);

@@ -12,10 +12,30 @@
 
 #include "Timer.h"
 
+#define PI 3.14159265359
+
+
+
+
 class Shape {
+
+	struct ToRotateAround {
+		bool rotateAroundActivated = false;
+		Shape *obj;
+		float r = 0.0f;
+		float p = 0.0f;
+		float t = 0.0f;
+		
+		float initialT = 0.0f;
+		float initialP = 0.0f;
+		float toIncrementT = 0.0f;
+		float toIncrementP = 0.0f;
+
+	};
 
 public:
 
+	glm::vec3 pos = glm::vec3(0,0,0);
 	GLuint vao;
 	GLuint vertexbuffer;
 	GLuint uvbuffer;
@@ -33,7 +53,8 @@ public:
 	float toRotate = 0.0f;
 	float roationTimeLimit = 0.01f;
 	bool rotationPending = false;
-	bool translationPending = false;
+	
+	ToRotateAround tra = ToRotateAround();
 
 	Shape();
 	Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
@@ -48,9 +69,15 @@ public:
 	void setupRotation(float speed);
 	void resetRotation();
 	void rotateBy(float angle);
+	void rotateAround(Shape *shape);
 	virtual void rotate90(float speed);
 	virtual void translate(glm::vec3 travelTo);
 	void scale(glm::vec3 multiplier);
 	glm::mat4 swapXandY(const glm::mat4 &toSwap);
+
+private:
+	void computeInitialPhiAndTheta(Shape *shape);
+	void setupRotateAround(Shape *shape);
+
 
 };

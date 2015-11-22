@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{a0859222-a140-4e4f-98df-42634e356aed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Solids">
+      <UniqueIdentifier>{bf0126ed-bc0b-4b9b-bc26-6ef3b76eff9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Solids">
+      <UniqueIdentifier>{a4f24348-bd48-41ce-bdf7-7dfb864411d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -38,15 +44,6 @@
     </ClInclude>
     <ClInclude Include="Controls.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Shape.h">
-      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Header Files\Objects</Filter>
@@ -69,6 +66,27 @@
     <ClInclude Include="TextureLdr.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Objects\Solids</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>Header Files\Objects\Solids</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\Objects\Solids</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Objects\Solids</Filter>
+    </ClInclude>
+    <ClInclude Include="Shadows.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneFactory.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -80,19 +98,10 @@
     <ClCompile Include="Controls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Cam.cpp">
@@ -107,14 +116,29 @@
     <ClCompile Include="TextureLdr.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Objects\Solids</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Source Files\Objects\Solids</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Objects\Solids</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>Source Files\Objects\Solids</Filter>
+    </ClCompile>
+    <ClCompile Include="Shadows.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneFactory.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="COMP371_hw1.fs">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="COMP371_hw1.vs">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="lightingAndTexture.fs">
       <Filter>Resource Files</Filter>
     </None>
@@ -127,16 +151,10 @@
     <None Include="DepthRTT.vertexshader">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Passthrough.vertexshader">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="ShadowMapping.fragmentshader">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ShadowMapping.vertexshader">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="SimpleTexture.fragmentshader">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

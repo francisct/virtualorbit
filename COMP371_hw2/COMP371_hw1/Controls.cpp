@@ -64,6 +64,12 @@ void keypress_callback(GLFWwindow *window, int key, int scancode, int action, in
 		case GLFW_KEY_D:
 			world.player.shape->translate(TRANSLATE_RIGHT);
 			break;
+		case GLFW_KEY_K:
+			world.cam.direction += glm::vec3(-0.1,0,0);
+			break;
+		case GLFW_KEY_L:
+			world.cam.direction += glm::vec3(0.1, 0, 0);
+			break;
 		}
 
 	
@@ -75,7 +81,7 @@ void computeMatricesFromInputs() {
 
 	world.cam.ViewMatrix = lookAt(
 		world.cam.position,           // Camera is here
-		world.cam.position + vec3(0.0f, 0.0f, -1.0f),
+		world.cam.position + world.cam.direction,
 		vec3(0, 1, 0)         // Head is up (set to 0,-1,0 to look upside-down)
 		);
 	glViewport(0, 0, windowWidth, windowHeight);

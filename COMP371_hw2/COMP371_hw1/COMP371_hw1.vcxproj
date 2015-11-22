@@ -158,10 +158,14 @@
     <ClInclude Include="Controls.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="GLOBALS.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="ObjLdr.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneFactory.h" />
     <ClInclude Include="ShaderLdr.h" />
+    <ClInclude Include="Shadows.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureLdr.h" />
@@ -171,12 +175,16 @@
   <ItemGroup>
     <ClCompile Include="Cam.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="ObjLdr.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneFactory.cpp" />
     <ClCompile Include="ShaderLdr.cpp" />
+    <ClCompile Include="Shadows.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Driver.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="TextureLdr.cpp" />
     <ClCompile Include="World.cpp">
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ShowIncludes>
@@ -190,16 +198,12 @@
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="COMP371_hw1.fs" />
-    <None Include="COMP371_hw1.vs" />
     <None Include="DepthRTT.fragmentshader" />
     <None Include="DepthRTT.vertexshader" />
     <None Include="lightingAndTexture.fs" />
     <None Include="lightingAndTexture.vs" />
-    <None Include="Passthrough.vertexshader" />
     <None Include="ShadowMapping.fragmentshader" />
     <None Include="ShadowMapping.vertexshader" />
-    <None Include="SimpleTexture.fragmentshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

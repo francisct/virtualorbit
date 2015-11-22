@@ -8,5 +8,6 @@ public:
 	SceneFactory(World *world);
 	void buildAtom();
 	void buildGameLevel();
+	void objComparator();
 
 };

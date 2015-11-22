@@ -9,6 +9,7 @@ extern Timer timer;
 extern World world;
 
 Shape::Shape() {}
+
 Shape::Shape(glm::vec3 ratio, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
 	vertices = inV;
 
@@ -94,6 +95,9 @@ void Shape::drawObject() {
 	if (rotationPending) {
 		rotate90(toRotate);
 	}
+	if (tra.rotateAroundActivated) {
+		rotateAround(tra.obj);
+	}
 	passMVPtoShader();
 	sendVertices();
 	sendUVs();
@@ -147,9 +151,63 @@ void Shape::rotate90(float speed) {
 
 }
 
+void Shape::setupRotateAround(Shape *shape) {
+	tra.rotateAroundActivated = true;
+	tra.obj = shape;
+	glm::vec3 xyz = pos - shape->pos;
+	tra.r = glm::length(xyz);
+	computeInitialPhiAndTheta(shape);
+	tra.t = tra.initialT;
+	tra.p = tra.initialP;
+	tra.toIncrementT = (PI - 2 * tra.initialT) * 500;
+	tra.toIncrementP = 2 * PI / 500;
+}
+
+void Shape::computeInitialPhiAndTheta(Shape* shape) {
+	//the opengl coordinates system is not the same as the cartesian system, therefore I to remap the axis
+	float z = -pos.z + shape->pos.z;
+	float x = pos.x - shape->pos.x;
+	float y = pos.y - shape->pos.y;
+
+	//computing thetha
+	tra.initialT = acos(z / tra.r);
+	//computing phi
+	tra.initialP = atan(y / x);
+}
+
+void Shape::rotateAround(Shape *shape) {
+	if (!tra.rotateAroundActivated) {
+		setupRotateAround(shape);
+	}
+	//to avoid overflow;
+	if (tra.p > 2 * PI + tra.initialP) {
+		tra.p = tra.initialP;
+	}
+	if (tra.t > (PI - tra.initialT)) {
+		tra.t -= tra.toIncrementT;
+	}
+	else {
+		tra.t += tra.toIncrementT;
+	}
+
+
+	glm::vec3 newPos;
+	tra.p += tra.toIncrementP;
+	//tra.t += 0.1;
+	newPos.x = tra.r * sin(tra.t) * cos(tra.p);
+	newPos.y = tra.r * sin(tra.t) * sin(tra.p);
+	newPos.z = tra.r *cos(tra.t);
+
+//I add shape->pos because the reference system for the rotation it the center of shape and not the center of the open glaxis
+	glm::vec3 travelTo = newPos - pos + shape->pos;
+	
+	translate(travelTo);
+}
+
 void Shape::translate(glm::vec3 travelTo) {
 	//based on the old translation matrix I add append my new translation
 	translation = glm::translate(translation, travelTo);
+	pos += travelTo;
 }
 
 void Shape::scale(glm::vec3 multiplier) {
