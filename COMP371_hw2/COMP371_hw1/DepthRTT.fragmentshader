@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #version 330
+=======
+#version 330 core
+>>>>>>> realisticLight
 
 // Ouput data
 layout(location = 0) out float fragmentdepth;

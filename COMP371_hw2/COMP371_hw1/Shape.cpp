@@ -3,53 +3,43 @@
 #include "Controls.h"
 #include "ObjLdr.h"
 #include "GLOBALS.h"
-
-extern GLuint view_matrix_id;
-extern GLuint model_matrix_id;
-extern GLuint proj_matrix_id;
-
-extern glm::mat4 proj_matrix;
-extern glm::mat4 view_matrix;
+#include "World.h"
 
 extern Timer timer;
+extern World world;
 
-float incrementalRotation = 0.0f;
-float toRotate = 0.0f;
-float roationTimeLimit = 10.0f;
-bool rotationPending = false;
-bool translationPending = false;
+Shape::Shape() {}
+Shape::Shape(glm::vec3 ratio, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
+	vertices = inV;
 
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i].x = vertices[i].x * ratio.x;
+		vertices[i].y = vertices[i].y * ratio.y;
+		vertices[i].z = vertices[i].z * ratio.z;
+	}
 
+	uvs = inU;
+	normals = inN;
+}
 
-Shape::Shape(){}
-//I initialize the cube with always the same geometry then apply transformations to its model matrix
-Shape::Shape(float xTranslation, float zRotation, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
-	model = glm::mat4(1.0);
+Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN) {
 	vertices = inV;
 	uvs = inU;
 	normals = inN;
-	//applying initial transformations
-	translate(glm::vec3(xTranslation, 0, 0));
-	rotateBy(zRotation);
 }
 
 void Shape::generateMVP() {
 	computeMatricesFromInputs();
-	proj_matrix = getProjectionMatrix();
-	view_matrix = getViewMatrix();
-	model = translation * rotation;
+	model = translation * rotation * scalation;
 }
 
 void Shape::passMVPtoShader() {
 	generateMVP();
 	//registering my matrices to be used in the shaders
-	glUniformMatrix4fv(proj_matrix_id, 1, GL_FALSE, glm::value_ptr(proj_matrix));
-	glUniformMatrix4fv(view_matrix_id, 1, GL_FALSE, glm::value_ptr(view_matrix));
-	glUniformMatrix4fv(model_matrix_id, 1, GL_FALSE, glm::value_ptr(model));
+	world.cam.passMVPtoShader(&model);
 }
 
-void Shape::initObj() {
-
+void Shape::sendVertices() {
 
 	//setup vbo for vertices
 	glGenBuffers(1, &vertexbuffer);
@@ -64,8 +54,9 @@ void Shape::initObj() {
 	}
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
-
+void Shape::sendUVs() {
 
 	//setup vbo for uvs
 	glGenBuffers(1, &uvbuffer);
@@ -78,11 +69,11 @@ void Shape::initObj() {
 	else {
 		glBufferData(GL_ARRAY_BUFFER, NULL, NULL, GL_STATIC_DRAW);
 	}
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+}
 
-
-
+void Shape::sendNormals() {
 	//setup vbo for normals
 	glGenBuffers(1, &normalbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
@@ -94,26 +85,36 @@ void Shape::initObj() {
 	else {
 		glBufferData(GL_ARRAY_BUFFER, NULL, NULL, GL_STATIC_DRAW);
 	}
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
-void Shape::draw() {
+void Shape::drawObject() {
+	world.shadows.sendToShaderForObjectCalculations();
 	if (rotationPending) {
 		rotate90(toRotate);
 	}
 	passMVPtoShader();
-
-	glBindVertexArray(vao);
-	initObj();
+	sendVertices();
+	sendUVs();
+	sendNormals();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-	glBindVertexArray(0);
-}
 
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+}
+void Shape::drawShadow() {
+	world.shadows.sendToShaderForShadowCalculations(&model, world.light);
+	sendVertices();
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+}
 void Shape::setupRotation(float speed) {
 	rotationPending = true;
 	incrementalRotation = 1;
 	toRotate = speed;
+	timer.reset();
 }
 
 void Shape::resetRotation() {
@@ -135,7 +136,7 @@ void Shape::rotate90(float speed) {
 	if (incrementalRotation*speed <= ROTATION_90 && incrementalRotation*speed >= -ROTATION_90) {
 		if (timer.elapsedTime >= roationTimeLimit) {
 			rotation = glm::rotate(rotation, speed, glm::vec3(0, 1, 0));
-			
+
 			incrementalRotation++;
 			timer.reset();
 		}
@@ -149,6 +150,10 @@ void Shape::rotate90(float speed) {
 void Shape::translate(glm::vec3 travelTo) {
 	//based on the old translation matrix I add append my new translation
 	translation = glm::translate(translation, travelTo);
+}
+
+void Shape::scale(glm::vec3 multiplier) {
+	scalation = glm::scale(scalation, multiplier);
 }
 
 glm::mat4 Shape::swapXandY(const glm::mat4 &toSwap) {

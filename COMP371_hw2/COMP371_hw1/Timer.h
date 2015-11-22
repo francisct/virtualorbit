@@ -12,8 +12,9 @@ public:
 	float currentTime;
 	float elapsedTime;
 
+	float mouseUnpressedTime;
+
 	Timer();
 	void reset();
 	float getElapsedTime();
-	void updateLastTime();
 };

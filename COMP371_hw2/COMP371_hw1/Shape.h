@@ -20,31 +20,37 @@ public:
 	GLuint vertexbuffer;
 	GLuint uvbuffer;
 	GLuint normalbuffer;
-	glm::mat4 model;
+	glm::mat4 model = glm::mat4(1.0);
 	glm::mat4 rotation;
 	glm::mat4 translation;
+	glm::mat4 scalation;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 
-	float incrementalRotation;
-	float toRotate;
-	float roationTimeLimit;
-	bool rotationPending;
-	bool translationPending;
 
-	Timer timer;
+	float incrementalRotation = 0.0f;
+	float toRotate = 0.0f;
+	float roationTimeLimit = 0.01f;
+	bool rotationPending = false;
+	bool translationPending = false;
+
 	Shape();
-	Shape(float xTranslation, float zRotation, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
+	Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
+	Shape(glm::vec3 transform, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
 	void generateMVP();
 	void passMVPtoShader();
-	void initObj();
-	void draw();
+	void sendVertices();
+	void sendUVs();
+	void sendNormals();
+	void drawObject();
+	void drawShadow();
 	void setupRotation(float speed);
 	void resetRotation();
 	void rotateBy(float angle);
 	virtual void rotate90(float speed);
 	virtual void translate(glm::vec3 travelTo);
+	void scale(glm::vec3 multiplier);
 	glm::mat4 swapXandY(const glm::mat4 &toSwap);
 
 };

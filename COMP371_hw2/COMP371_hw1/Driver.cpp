@@ -23,11 +23,11 @@
 #include <algorithm>
 using namespace std;
 #include "World.h"
-#include "Cube.h"
 #include "Timer.h"
 #include "TextureLdr.h"
 #include "ShaderLdr.h"
 #include "Cam.h"
+#include "SceneFactory.h"
 
 #define M_PI        3.14159265358979323846264338327950288   /* pi */
 #define DEG_TO_RAD	M_PI/180.0f
@@ -38,22 +38,25 @@ int glRenderingType = GL_TRIANGLES;
 Timer timer;
 World world;
 
-GLuint shader_program = 0;
 GLuint Texture;
 GLuint TextureID;
 
-GLuint view_matrix_id = 0;
-GLuint model_matrix_id = 0;
-GLuint proj_matrix_id = 0;
+GLuint depthTexture = 0;
 
-glm::mat4 proj_matrix;
-glm::mat4 view_matrix;
+GLuint currentShader = 0;
+GLuint depthShader = 0;
+GLuint realisticLightShader = 0;
+GLuint simpleLightShader = 0;
+bool shaderHasToggled = false;
 
 ///Change the size of the rendered points
 GLfloat point_size = 1.0f;
 
 int windowWidth = 640;
 int windowHeight = 480;
+
+// Get mouse position
+double mouseXpos = 0, mouseYpos = 0;
 
 bool initialize() {
 	/// Initialize GL context and O/S window using the GLFW helper library
@@ -64,17 +67,14 @@ bool initialize() {
 
 	/// Create a window of size 640x480 and with title "Lecture 2: First Triangle"
 	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	
+
 	window = glfwCreateWindow(windowWidth, windowHeight, "A1-6615287", NULL, NULL);
 	if (!window) {
 		fprintf(stderr, "ERROR: could not open window with GLFW3\n");
 		glfwTerminate();
 		return false;
 	}
-	
 
-	int w, h;
-	glfwGetWindowSize(window, &w, &h);
 	glfwMakeContextCurrent(window);
 
 	/// Initialize GLEW extension handler
@@ -91,10 +91,9 @@ bool initialize() {
 	glEnable(GL_DEPTH_TEST); /// Enable depth-testing
 	glDepthFunc(GL_LESS);	/// The type of testing i.e. a smaller value as "closer"
 
-	//MVP
-	glm::mat4 proj_matrix = getProjectionMatrix();
-	glm::mat4 view_matrix = getViewMatrix();
-
+	simpleLightShader = loadShaders("lightingAndTexture.vs", "lightingAndTexture.fs");
+	depthShader = loadShaders("DepthRTT.vertexshader", "DepthRTT.fragmentshader");
+	realisticLightShader = loadShaders("ShadowMapping.vertexshader", "ShadowMapping.fragmentshader");
 	// Set the cursor position for first frame
 	glfwSetCursorPos(window, windowWidth / 2, windowHeight / 2);
 	return true;
@@ -111,33 +110,19 @@ bool cleanUp() {
 }
 
 void setCallbacks() {
-	glfwSetMouseButtonCallback(window, mouse_button_callback);
 	glfwSetKeyCallback(window, keypress_callback);
-	//glfwSetScrollCallback(window, scroll_callback);
+	glfwSetScrollCallback(window, mouseScrollCallback);
+	glfwSetCursorPosCallback(window, watchCursorCallback);
+	//glfwSetMouseButtonCallback(window, mouseButtonCallback);
 }
 
-void loadTexture() {
-	// Load the texture
-    Texture = loadDDS("uvmap.DDS");
-	// Get a handle for our "myTextureSampler" uniform
-	TextureID = glGetUniformLocation(shader_program, "myTextureSampler");
+void prepareGL() {
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void bindTexture() {
-	// Bind our texture in Texture Unit 0
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, Texture);
-	// Set our "myTextureSampler" sampler to user Texture Unit 0
-	glUniform1i(TextureID, 0);
-}
 
-void setMVPids(GLuint shaderID) {
-	//The three variables below hold the id of each of the variables in the shader
-	//If you read the vertex shader file you'll see that the same variable names are used.
-	view_matrix_id = glGetUniformLocation(shaderID, "view_matrix");
-	model_matrix_id = glGetUniformLocation(shaderID, "model_matrix");
-	proj_matrix_id = glGetUniformLocation(shaderID, "proj_matrix");
-}
 
 bool test() {
 	// The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
@@ -207,8 +192,10 @@ int main() {
 	assert(sizeof(glm::uvec3) == sizeof(unsigned int) * 3);
 
 	initialize();
+	currentShader = realisticLightShader;
 	setCallbacks();
 
+<<<<<<< HEAD
 	// The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
 	GLuint FramebufferName = 0;
 	glGenFramebuffers(1, &FramebufferName);
@@ -316,10 +303,29 @@ int main() {
 	//glUseProgram(shader_program);
 	//GLuint LightPosID = glGetUniformLocation(shader_program, "LightPosition_worldspace");
 	//GLuint LightDirID = glGetUniformLocation(shader_program, "LightDirection_cameraspace");
+=======
+	world = World(currentShader, depthShader);
+	SceneFactory fac = SceneFactory(&world);
+	fac.buildAtom();
+
+	if (currentShader == simpleLightShader) {
+		Texture = loadBMP_custom("eyeball.bmp");
+		// Get a handle for our "myTextureSampler" uniform
+		TextureID = glGetUniformLocation(currentShader, "myTextureSampler");
+	}
+	      
+	timer = Timer();
+>>>>>>> realisticLight
 	while (!glfwWindowShouldClose(window)) {
-		
+
+		if (shaderHasToggled) {
+			world.updateShader(currentShader);
+			shaderHasToggled = false;
+		}
+
 		timer.getElapsedTime();
 
+<<<<<<< HEAD
 
 
 
@@ -490,6 +496,32 @@ int main() {
 		glfwSwapBuffers(window);
 		*/
 		timer.updateLastTime();
+=======
+		
+
+		if (currentShader == realisticLightShader) {
+			GLuint *FramebufferName = new GLuint();
+			depthTexture = prepareDepthTexture(FramebufferName);
+
+			glBindFramebuffer(GL_FRAMEBUFFER, *FramebufferName);
+			glViewport(0, 0, 1024, 1024);
+			prepareGL();
+
+			glUseProgram(depthShader);
+			world.drawShadows();
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		}
+
+		prepareGL();
+
+		glUseProgram(currentShader);
+		world.drawObjects(depthTexture);
+
+		//glViewport(0, 0, 512, 512);
+		// Swap buffers
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+>>>>>>> realisticLight
 	}
 
 	cleanUp();

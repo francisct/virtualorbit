@@ -3,12 +3,27 @@
 
 #include "World.h"
 #include "ObjLdr.h"
+#include "TextureLdr.h"
 
+extern double mouseXpos, mouseYpos;
+extern Timer timer;
 
-World::World() {
-	loadOBJ("cube.obj", templateVertices, templateUvs, templateNormals);
+World::World() {}
+World::World(GLuint shaderID, GLuint depthShader) {
+	cubeTemplate = loadOBJ("cube.obj");
+	sphereTemplate = loadOBJ("sphere.obj");
+	
+	shadows = Shadows(depthShader);
+	updateShader(shaderID);
+	
 }
 
+void World::updateShader(GLuint shaderID) {
+	light.generateIDs(shaderID);
+	cam.generateIDs(shaderID);
+	shadows.generateIDs(shaderID);
+}
+/*
 void World::registerVAOS(vector<GLuint>* vaos) {
 
 	vaos->push_back(player.vao);
@@ -18,52 +33,68 @@ void World::registerVAOS(vector<GLuint>* vaos) {
 
 	glGenVertexArrays(objects.size()+1, &vaos->at(0));
 }
-
-void World::addPlayer() {
-	player = Player(0, 0, templateVertices, templateUvs, templateNormals);
-}
-
-void World::addShape(float widthRatio, float heightRatio, float depthRatio, float xTranslation, float yTranslation, float zTranslation) {
-
-	vector<glm::vec3> vertices = templateVertices;
-	for (int i = 0; i < vertices.size(); i++) {
-		vertices[i].x = vertices[i].x * widthRatio + xTranslation;
-		vertices[i].y = vertices[i].y * heightRatio + yTranslation;
-		vertices[i].z = vertices[i].z * depthRatio + zTranslation;
-	}
-
-	objects.push_back(Shape(0, 0, vertices, templateUvs, templateNormals));
-}
+*/
 
 void World::draw() {
+	
+}
 
+void World::drawObjects(GLuint depthTexture) {
+	light.sendToShader();
+	shadows.activateDepthTexture(depthTexture);
+	    player.shape->drawObject();
 	for (int i = 0; i < objects.size(); i++) {
-		player.draw();
-		objects[i].draw();
+		objects[i]->drawObject();
 	}
+}
+void World::drawShadows() {
+	
+	player.shape->drawShadow();
+	for (int i = 0; i < objects.size(); i++) {
+		objects[i]->drawShadow();
+	}
+	
 }
 
 void World::rotateWorld(float speed) {
-
+	
+	player.shape->rotate90(speed);
 	for (int i = 0; i < objects.size(); i++) {
-		player.rotate90(speed);
-		objects[i].rotate90(speed);
+		objects[i]->rotate90(speed);
 	}
 }
 
 void World::translate(glm::vec3 translateBy) {
 
+	player.shape->translate(translateBy);
 	for (int i = 0; i < objects.size(); i++) {
-		player.translate(translateBy);
-		objects[i].translate(translateBy);
+		objects[i]->translate(translateBy);
 	}
 }
 
 void World::destroy() {
 	//deleting buffers
 	for (int i = 0; i < objects.size(); i++) {
-		glDeleteBuffers(1, &objects[i].vertexbuffer);
-		glDeleteBuffers(1, &objects[i].uvbuffer);
-		glDeleteBuffers(1, &objects[i].normalbuffer);
+		glDeleteBuffers(1, &objects[i]->vertexbuffer);
+		glDeleteBuffers(1, &objects[i]->uvbuffer);
+		glDeleteBuffers(1, &objects[i]->normalbuffer);
 	}
+}
+
+void World::generateShapeOnClickCallback(Shape *shape) {
+	//if this is a new click and not that the button is still pressed create new shape
+	if (timer.mouseUnpressedTime > 0.1) {
+		objects.push_back(shape);
+		objects.back()->scale(glm::vec3(0.1, 0.1, 0.1));
+		objects.back()->translate(glm::vec3(light.pos.x, light.pos.y, light.pos.z - 2));
+	}
+	//get latest shape and scale it. Keeping the mouse press will continue to scale the same cube
+	shape = this->objects.back();
+	shape->scale(glm::vec3(1.05,1.05,1.05));
+	std::cout << "salut";
+
+	//reset time that mouse is unpressed
+	timer.mouseUnpressedTime = 0.0;
+	
+	
 }

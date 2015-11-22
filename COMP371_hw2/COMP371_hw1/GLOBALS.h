@@ -1,7 +1,7 @@
 #pragma once
 
 #include "glm.hpp"
-#define ROTATION_DIVIDEND 20.0f
+#define ROTATION_DIVIDEND 16.0f
 #define ROTATION_90 1.5708f
 #define ROTATION_SPEED ROTATION_90 / ROTATION_DIVIDEND
 #define ROTATE_LEFT ROTATION_SPEED
