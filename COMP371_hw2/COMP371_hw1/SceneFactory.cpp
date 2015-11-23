@@ -11,16 +11,16 @@ void SceneFactory::buildAtom() {
 	world->objects.push_back(new Cube(glm::vec3(10, 0.3, 10)));
 	world->objects.back()->translate(glm::vec3(0, -10, 0));
 	//atoms:
-	//world->objects.push_back(new Sphere());
-	//world->objects.back()->translate(glm::vec3(0, 0, -15));
-	//world->objects.back()->rotateAround(world->player.shape);
+	world->objects.push_back(new Sphere());
+	world->objects.back()->translate(glm::vec3(-6, -6, 0));
+	world->objects.back()->rotateAround(world->player.shape);
 
 	world->objects.push_back(new Sphere());
 	world->objects.back()->translate(glm::vec3(5, 0, 5));
-	//world->objects.back()->rotateAround(world->player.shape);
+	world->objects.back()->rotateAround(world->player.shape);
 
 	world->objects.push_back(new Sphere());
-	world->objects.back()->translate(glm::vec3(1, 0, 7));
+	world->objects.back()->translate(glm::vec3(1, 4, 7));
 
 	world->objects.back()->rotateAround(world->player.shape);
 }

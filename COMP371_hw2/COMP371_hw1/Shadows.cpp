@@ -14,7 +14,7 @@ void Shadows::generateIDs(GLuint shaderID) {
 void Shadows::sendToShaderForShadowCalculations(glm::mat4 *model, Light light) {
 
 	glm::mat4 depthProjectionMatrix = glm::ortho<float>(-10, 10, -10, 10, -10, 20);
-	glm::mat4 depthViewMatrix = glm::lookAt(light.pos, glm::vec3(-1, -1, 0), glm::vec3(0, 1, 0));
+	glm::mat4 depthViewMatrix = glm::lookAt(light.pos, glm::vec3(0, -1, 0), glm::vec3(0, 1, 0));
 	glm::mat4 depthMVP = depthProjectionMatrix * depthViewMatrix * *model;
 	glUniformMatrix4fv(depthMatrixID, 1, GL_FALSE, glm::value_ptr(depthMVP));
 	glm::mat4 biasMatrix = glm::mat4(

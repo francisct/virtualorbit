@@ -91,14 +91,10 @@ void Shape::sendNormals() {
 }
 
 void Shape::drawObject() {
-	world.shadows.sendToShaderForObjectCalculations();
-	if (rotationPending) {
-		rotate90(toRotate);
-	}
-	if (tra.rotateAroundActivated) {
-		rotateAround(tra.obj);
-	}
 	passMVPtoShader();
+	world.shadows.sendToShaderForObjectCalculations();
+	
+	
 	sendVertices();
 	sendUVs();
 	sendNormals();
@@ -110,6 +106,12 @@ void Shape::drawObject() {
 	glDisableVertexAttribArray(2);
 }
 void Shape::drawShadow() {
+	if (rotationPending) {
+		rotate90(toRotate);
+	}
+	if (tra.rotateAroundActivated) {
+		rotateAround(tra.obj);
+	}
 	world.shadows.sendToShaderForShadowCalculations(&model, world.light);
 	sendVertices();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
@@ -159,7 +161,7 @@ void Shape::setupRotateAround(Shape *shape) {
 	computeInitialPhiAndTheta(shape);
 	tra.t = tra.initialT;
 	tra.p = tra.initialP;
-	tra.toIncrementT = (PI - 2 * tra.initialT) * 500;
+	tra.toIncrementT = (PI - 2 * tra.initialT) / 50;
 	tra.toIncrementP = 2 * PI / 500;
 }
 

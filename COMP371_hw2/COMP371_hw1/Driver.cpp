@@ -172,7 +172,8 @@ int main() {
 
 		glUseProgram(currentShader);
 		world.drawObjects(depthTexture);
-
+		
+		//world.draw();
 		//glViewport(0, 0, 512, 512);
 		// Swap buffers
 		glfwSwapBuffers(window);
