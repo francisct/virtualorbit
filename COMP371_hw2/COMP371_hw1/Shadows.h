@@ -11,11 +11,10 @@ public:
 	GLuint depthShader;
 	GLuint depthBiasID;
 	GLuint shadowMapID;
-	glm::mat4 depthBiasMVP;
 	Shadows();
 	Shadows(GLuint depthShader);
 	void generateIDs(GLuint shaderID);
-	void sendToShaderForShadowCalculations(glm::mat4 *model, Light light);
-	void sendToShaderForObjectCalculations();
+	glm::mat4 sendToShaderForShadowCalculations(glm::mat4 *model, Light *light);
+	void sendToShaderForObjectCalculations(glm::mat4 *dephtBiasMVP);
 	void activateDepthTexture(GLuint depthTexture);
 };

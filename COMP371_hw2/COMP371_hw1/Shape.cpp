@@ -29,13 +29,9 @@ Shape::Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector
 	normals = inN;
 }
 
-void Shape::generateMVP() {
-	computeMatricesFromInputs();
-	model = translation * rotation * scalation;
-}
 
 void Shape::passMVPtoShader() {
-	generateMVP();
+	computeMatricesFromInputs();
 	//registering my matrices to be used in the shaders
 	world.cam.passMVPtoShader(&model);
 }
@@ -92,8 +88,9 @@ void Shape::sendNormals() {
 
 void Shape::drawObject() {
 	passMVPtoShader();
-	world.shadows.sendToShaderForObjectCalculations();
-	
+	world.shadows.sendToShaderForObjectCalculations(&this->depthBiasMVP);
+
+	glUniform3f(world.light.colorID, color.x, color.y, color.z);
 	
 	sendVertices();
 	sendUVs();
@@ -112,7 +109,8 @@ void Shape::drawShadow() {
 	if (tra.rotateAroundActivated) {
 		rotateAround(tra.obj);
 	}
-	world.shadows.sendToShaderForShadowCalculations(&model, world.light);
+	model = translation * rotation * scalation;
+	this->depthBiasMVP = world.shadows.sendToShaderForShadowCalculations(&model, &world.light);
 	sendVertices();
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 }

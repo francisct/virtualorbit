@@ -136,7 +136,7 @@ int main() {
 	world = World(currentShader, depthShader);
 	SceneFactory fac = SceneFactory(&world);
 	fac.buildAtom();
-
+	//does not work with realistic light, why?
 	if (currentShader == simpleLightShader) {
 		Texture = loadBMP_custom("eyeball.bmp");
 		// Get a handle for our "myTextureSampler" uniform
@@ -167,7 +167,8 @@ int main() {
 			world.drawShadows();
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
-
+		
+		//glViewport(0, 0, 1024, 720);
 		prepareGL();
 
 		glUseProgram(currentShader);

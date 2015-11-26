@@ -36,7 +36,7 @@ class Shape {
 public:
 
 	glm::vec3 pos = glm::vec3(0,0,0);
-	GLuint vao;
+	glm::vec3 color = glm::vec3(0.03, 0.03, 0.03);
 	GLuint vertexbuffer;
 	GLuint uvbuffer;
 	GLuint normalbuffer;
@@ -44,9 +44,11 @@ public:
 	glm::mat4 rotation;
 	glm::mat4 translation;
 	glm::mat4 scalation;
+	glm::mat4 depthBiasMVP;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
+
 
 
 	float incrementalRotation = 0.0f;
@@ -59,13 +61,9 @@ public:
 	Shape();
 	Shape(std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
 	Shape(glm::vec3 transform, std::vector<glm::vec3> inV, std::vector<glm::vec2> inU, std::vector<glm::vec3> inN);
-	void generateMVP();
 	void passMVPtoShader();
-	void sendVertices();
-	void sendUVs();
-	void sendNormals();
-	void drawObject();
-	void drawShadow();
+	virtual void drawObject();
+	virtual void drawShadow();
 	void setupRotation(float speed);
 	void resetRotation();
 	void rotateBy(float angle);
@@ -75,9 +73,12 @@ public:
 	void scale(glm::vec3 multiplier);
 	glm::mat4 swapXandY(const glm::mat4 &toSwap);
 
+
 private:
 	void computeInitialPhiAndTheta(Shape *shape);
 	void setupRotateAround(Shape *shape);
 
-
+	void sendVertices();
+	void sendUVs();
+	void sendNormals();
 };

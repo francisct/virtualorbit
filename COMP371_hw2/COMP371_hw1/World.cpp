@@ -14,6 +14,7 @@ World::World(GLuint shaderID, GLuint depthShader) {
 	cubeTemplate = loadOBJ("cube.obj");
 	sphereTemplate = loadOBJ("sphere.obj");
 
+	light = Light(&cubeTemplate);
 	shadows = Shadows(depthShader);
 	updateShader(shaderID);
 
@@ -24,81 +25,18 @@ void World::updateShader(GLuint shaderID) {
 	cam.generateIDs(shaderID);
 	shadows.generateIDs(shaderID);
 }
-/*
-void World::registerVAOS(vector<GLuint>* vaos) {
-
-	vaos->push_back(player.vao);
-	for (int i = 0; i < objects.size(); i++) {
-		vaos->push_back(objects[i].vao);
-	}
-
-	glGenVertexArrays(objects.size()+1, &vaos->at(0));
-}
-*/
-
-void World::draw() {
-	GLuint depthTexture = 0;
-	GLuint *FramebufferName = new GLuint();
-
-	if (currentShader == realisticLightShader) {
-		depthTexture = prepareDepthTexture(FramebufferName);
-		glBindFramebuffer(GL_FRAMEBUFFER, *FramebufferName);
-		glViewport(0, 0, 1024, 1024);
-
-
-
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-		glUseProgram(shadows.depthShader);
-		player.shape->drawShadow();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glUseProgram(currentShader);
-	light.sendToShader();
-	shadows.activateDepthTexture(depthTexture);
-	player.shape->drawObject();
-
-	
-	for (int i = 0; i < objects.size(); i++) {
-
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glUseProgram(shadows.depthShader);
-		objects[i]->drawShadow();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glUseProgram(currentShader);
-		light.sendToShader();
-		shadows.activateDepthTexture(depthTexture);
-		objects[i]->drawObject();
-	}
-}
 
 void World::drawObjects(GLuint depthTexture) {
 	light.sendToShader();
 	shadows.activateDepthTexture(depthTexture);
+	light.drawObject();
 	player.shape->drawObject();
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->drawObject();
 	}
 }
 void World::drawShadows() {
-
+	light.drawShadow();
 	player.shape->drawShadow();
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->drawShadow();

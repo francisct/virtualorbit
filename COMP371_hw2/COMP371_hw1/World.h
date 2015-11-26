@@ -26,11 +26,10 @@ public:
 	Cam cam;
 	Shape cubeTemplate;
 	Shape sphereTemplate;
+
 	World();
 	World(GLuint shaderProgram, GLuint depthShader);
 	void updateShader(GLuint shaderID);
-	//void registerVAOS(vector<GLuint>* vaos);
-	void draw();
 	void rotateWorld(float speed);
 	void translate(glm::vec3 translateBy);
 	void generateShapeOnClickCallback(Shape *shape);

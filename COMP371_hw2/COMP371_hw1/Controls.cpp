@@ -70,6 +70,10 @@ void keypress_callback(GLFWwindow *window, int key, int scancode, int action, in
 		case GLFW_KEY_L:
 			world.cam.direction += glm::vec3(0.1, 0, 0);
 			break;
+		case GLFW_KEY_O:
+			world.objects.push_back(new Cube(glm::vec3(10, 0.3, 10)));
+			world.objects.back()->translate(glm::vec3(0, 10, 0));
+			break;
 		}
 
 	
@@ -91,7 +95,7 @@ void watchCursorCallback(GLFWwindow *window, double xpos, double ypos) {
 	float xCoordPos = xpos - windowWidth / 2;
 	float yCoordPos = (windowHeight / 2) - ypos;
 	//dividing by 30 approximate the world.cam.position in object space
-	world.light.pos = vec3(xCoordPos/30 + world.cam.position.x, yCoordPos/30 + world.cam.position.y, world.light.pos.z);
+	world.light.translate (vec3(xCoordPos/20 - world.light.pos.x, yCoordPos/20 - world.light.pos.y, 0));
 }
 
 void mouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
