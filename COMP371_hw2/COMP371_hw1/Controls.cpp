@@ -3,7 +3,7 @@
 
 
 extern GLFWwindow* window;
-
+extern Timer timer;
 extern int windowWidth;
 extern int windowHeight;
 extern GLuint currentShader, realisticLightShader, simpleLightShader;
@@ -117,13 +117,18 @@ void mouseButtonCallback() {
 }
 
 void toggleShader() {
-	if (shaderHasToggled == false) {
-		if (currentShader == simpleLightShader) {
-			currentShader = realisticLightShader;
+
+	//I use timer to prevent undesired multiple key press
+	if (timer.keyUnpressedTime > 0.1) {
+		if (shaderHasToggled == false) {
+			if (currentShader == simpleLightShader) {
+				currentShader = realisticLightShader;
+			}
+			else {
+				currentShader = simpleLightShader;
+			}
+			shaderHasToggled = true;
 		}
-		else {
-			currentShader = simpleLightShader;
-		}
-		shaderHasToggled = true;
+		timer.keyUnpressedTime = 0;
 	}
 }

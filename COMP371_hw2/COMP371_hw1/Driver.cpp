@@ -113,7 +113,6 @@ void setCallbacks() {
 	glfwSetKeyCallback(window, keypress_callback);
 	glfwSetScrollCallback(window, mouseScrollCallback);
 	glfwSetCursorPosCallback(window, watchCursorCallback);
-	//glfwSetMouseButtonCallback(window, mouseButtonCallback);
 }
 
 void prepareGL() {
@@ -151,7 +150,7 @@ int main() {
 			shaderHasToggled = false;
 		}
 
-		timer.getElapsedTime();
+		timer.updateElapsedTime();
 
 		
 
@@ -174,8 +173,8 @@ int main() {
 		glUseProgram(currentShader);
 		world.drawObjects(depthTexture);
 		
-		//world.draw();
-		//glViewport(0, 0, 512, 512);
+		mouseButtonCallback();
+
 		// Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -2,6 +2,7 @@
 
 uniform mat4 P, V, M;	
 uniform vec3 LightPosition_worldspace, LightDirection_worldspace;
+uniform vec3 myColor;
 
 layout(location = 0) in vec3 vertexPosition_modelspace;
 layout(location = 1) in vec2 vertexUV;
@@ -13,6 +14,7 @@ out vec3 Position_worldspace;
 out vec3 Normal_cameraspace;
 out vec3 EyeDirection_cameraspace;
 out vec3 LightDirection_cameraspace;
+
 
 
 void main () {

@@ -53,7 +53,6 @@ public:
 
 	float incrementalRotation = 0.0f;
 	float toRotate = 0.0f;
-	float roationTimeLimit = 0.01f;
 	bool rotationPending = false;
 	
 	ToRotateAround tra = ToRotateAround();

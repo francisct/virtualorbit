@@ -118,7 +118,7 @@ void Shape::setupRotation(float speed) {
 	rotationPending = true;
 	incrementalRotation = 1;
 	toRotate = speed;
-	timer.reset();
+	timer.elapsedTimeRotate90 = 0;
 }
 
 void Shape::resetRotation() {
@@ -138,11 +138,10 @@ void Shape::rotate90(float speed) {
 		setupRotation(speed);
 	}
 	if (incrementalRotation*speed <= ROTATION_90 && incrementalRotation*speed >= -ROTATION_90) {
-		if (timer.elapsedTime >= roationTimeLimit) {
+		if (timer.elapsedTimeRotate90 >= ROTATION_90_TIME) {
 			rotation = glm::rotate(rotation, speed, glm::vec3(0, 1, 0));
 
 			incrementalRotation++;
-			timer.reset();
 		}
 	}
 	else {
@@ -161,6 +160,7 @@ void Shape::setupRotateAround(Shape *shape) {
 	tra.p = tra.initialP;
 	tra.toIncrementT = (PI - 2 * tra.initialT) / 50;
 	tra.toIncrementP = 2 * PI / 500;
+	timer.elapsedTimeRotateAround = 0;
 }
 
 void Shape::computeInitialPhiAndTheta(Shape* shape) {
@@ -179,29 +179,30 @@ void Shape::rotateAround(Shape *shape) {
 	if (!tra.rotateAroundActivated) {
 		setupRotateAround(shape);
 	}
-	//to avoid overflow;
-	if (tra.p > 2 * PI + tra.initialP) {
-		tra.p = tra.initialP;
-	}
-	if (tra.t > (PI - tra.initialT)) {
-		tra.t -= tra.toIncrementT;
-	}
-	else {
-		tra.t += tra.toIncrementT;
-	}
+	if (timer.elapsedTimeRotateAround >= ROTATE_AROUND_TIME) {
+		//to avoid overflow;
+		if (tra.p > 2 * PI + tra.initialP) {
+			tra.p = tra.initialP;
+		}
+		if (tra.t > (PI - tra.initialT)) {
+			tra.t -= tra.toIncrementT;
+		}
+		else {
+			tra.t += tra.toIncrementT;
+		}
 
 
-	glm::vec3 newPos;
-	tra.p += tra.toIncrementP;
-	//tra.t += 0.1;
-	newPos.x = tra.r * sin(tra.t) * cos(tra.p);
-	newPos.y = tra.r * sin(tra.t) * sin(tra.p);
-	newPos.z = tra.r *cos(tra.t);
+		glm::vec3 newPos;
+		tra.p += tra.toIncrementP;
+		newPos.x = tra.r * sin(tra.t) * cos(tra.p);
+		newPos.y = tra.r * sin(tra.t) * sin(tra.p);
+		newPos.z = tra.r *cos(tra.t);
 
-//I add shape->pos because the reference system for the rotation it the center of shape and not the center of the open glaxis
-	glm::vec3 travelTo = newPos - pos + shape->pos;
-	
-	translate(travelTo);
+		//I add shape->pos because the reference system for the rotation it the center of shape and not the center of the open glaxis
+		glm::vec3 travelTo = newPos - pos + shape->pos;
+
+		translate(travelTo);
+	}
 }
 
 void Shape::translate(glm::vec3 travelTo) {

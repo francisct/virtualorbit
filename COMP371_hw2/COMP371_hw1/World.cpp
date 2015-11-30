@@ -4,6 +4,8 @@
 #include "World.h"
 #include "ObjLdr.h"
 #include "TextureLdr.h"
+#include "GLOBALS.h"
+#include <time.h>
 
 extern double mouseXpos, mouseYpos;
 extern Timer timer;
@@ -33,6 +35,13 @@ void World::drawObjects(GLuint depthTexture) {
 	player.shape->drawObject();
 	for (int i = 0; i < objects.size(); i++) {
 		objects[i]->drawObject();
+	}
+	if (timer.elapsedTimeRotateAround >= ROTATE_AROUND_TIME) {
+		timer.elapsedTimeRotateAround = 0;
+	}
+
+	if (timer.elapsedTimeRotate90 >= ROTATION_90_TIME) {
+		timer.elapsedTimeRotate90 = 0;
 	}
 }
 void World::drawShadows() {
@@ -75,6 +84,15 @@ void World::generateShapeOnClickCallback(Shape *shape) {
 		objects.push_back(shape);
 		objects.back()->scale(glm::vec3(0.1, 0.1, 0.1));
 		objects.back()->translate(glm::vec3(light.pos.x, light.pos.y, light.pos.z - 2));
+		objects.back()->rotateAround(player.shape);
+		//add a random color:
+		srand(time(NULL));
+		glm::vec3 col;
+		
+		col.x = (float)(rand() % 10) / 10;
+		col.y = (float)(rand() % 10) / 10;
+		col.z = (float)(rand() % 10) / 10;
+		objects.back()->color = col;
 	}
 	//get latest shape and scale it. Keeping the mouse press will continue to scale the same cube
 	shape = this->objects.back();

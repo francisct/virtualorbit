@@ -7,14 +7,15 @@ class Timer {
 
 public:
 
-	float deltaTime;
-	float lastTime;
-	float currentTime;
-	float elapsedTime;
+	float deltaTime = 0;
+	float lastTime = 0;
+	float currentTime = 0;
+	float elapsedTimeRotate90 = 0;
+	float elapsedTimeRotateAround = 0;
 
-	float mouseUnpressedTime;
+	float mouseUnpressedTime = 0;
+	float keyUnpressedTime = 0;
 
 	Timer();
-	void reset();
-	float getElapsedTime();
+	void updateElapsedTime();
 };
